@@ -1,0 +1,73 @@
+@CHARSET "ISO-8859-1";
+
+
+div#page {
+/* Hintergrundfarbe #ffffe0 setzen und zus®atzlich hintergrund.gif
+als Hintergrundbild verwenden und in y-Richtung solange
+wiederholen, bis der untere Rand erreicht ist */
+position:absolute;
+top:0%;
+background: #ffffe0 url(hintergrund.gif) repeat-y;
+/* Rahmenfarbe setzen */
+border-color: black;
+/* Rahmenbreite 1 Pixel */
+border-width: 1px;
+/* Durchgezogene Linie als Rahmen verwenden */
+border-style: solid;
+/* 1 Pixel Abstand zum Inhalt des "page"-Elements */
+padding: 1px;
+width:600px;
+}
+
+div#header {
+/* minimale H®ohe f®ur den "header" von 10 Pixeln setzen */
+min-height: 10px;
+height:20%;
+background-color: white;
+border: 1px solid black;
+/* Text zentrieren */
+text-align: center;
+}
+div#menu {
+/* das "menu" Element links ausrichten und nicht auf Seitenbreite
+ausdehnen */
+float: left;
+/* Festlegen der minimale Breite des "menu"-Element auf 160 Pixel */
+min-width: 160px;
+min-height: 100px;
+margin-top:5px;
+margin-bottom:5px;
+height:450px;
+padding: 10px;
+background-color:white;
+border: 1px solid black;
+}
+div#content {
+/* Abstand zum linken Rand auf 160 Pixel festlegen
+(da anfangen, wo das Men®u aufh®ort) */
+margin-left: 160px;
+min-height: 100px;
+padding: 10px;
+height:500px;
+}
+
+div#footer {
+min-height: 10px;
+background-color: white;
+height: 20%;
+text-align: center;
+border: 1px solid black;
+}
+h1 {
+/* Setzt die Schriftgr®oﬂe von h1 auf 16 Punkte. */
+font-size: 18pt;
+}
+h2 {
+font-size: 16pt;
+}
+h3 {
+font-size: 14pt;
+}
+h4 {
+font-size: 12pt;
+}

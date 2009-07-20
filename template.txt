@@ -1,0 +1,26 @@
+	
+	<div id="page">
+		<div id="header">
+			<h1>Bundesliga Tippspiel</h1>
+		</div>
+		<div id="menu">
+			<div id="menueintrag">
+				<a href="">Tabelle</a>
+			</div>
+			<div id="menueintrag">
+				<a href="">Spieltag</a>
+			</div>
+			<div id="menueintrag">
+				<a href="">Benutzer</a>
+			</div>
+			<div id="menueintrag">
+				<a href="logout.php">Logout</a>
+			</div>	
+		</div>
+		<div id="content">
+
+		</div>
+		<div id="footer">
+			<?php echo "Benutzer: " . $_SESSION['username']; ?>
+		</div>
+	</div>
