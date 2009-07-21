@@ -1,8 +1,11 @@
 <?php
 session_start();
+include 'persistenz.php';
 if (!isset($_SESSION['username'])){
 	exit;	
 }
+$inst = PersistenzManager::instance();
+$inst->close();
 session_destroy();
 ?>
 

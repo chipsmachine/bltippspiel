@@ -1,6 +1,7 @@
 #/bin/bash
 
-WEB_DIR=/Applications/XAMPP/htdocs
+WEB_DIR=~/web
 
 cp -v *.php $WEB_DIR
 cp -v *.html $WEB_DIR 
+cp -v *.css $WEB_DIR
