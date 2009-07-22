@@ -36,66 +36,46 @@ class PersistenzManager
 		if (!$this->connection)
 			mysql_close($this->connection);
 	}
-	
+		
 	public function query($sql)
 	{
 		$result = mysql_query($sql, $this->connection);
-		if (!result)
+		
+		if (!$result)
 			die('Abfragefehler ' . mysql_error());
-		if (result == TRUE)
-			return TRUE;
+		if (!is_resource($result))
+			return TRUE;	
+		if (mysql_num_rows($result) == 0)
+			return FALSE;
+		
 		$array = array();
-		while ($line = mysql_fetch_array($result)){
-			array_push($array, $line);
-		}
+		while ($row = mysql_fetch_assoc($result)){
+			array_push($array, $row);
+		}		
 		return $array;
 	}
 }
 
-class BenutzerManager
+function loadBenutzer($name)
 {
-	private static $instance = NULL;
-	private $persManager = NULL;
-	
-	private function __construct(){}
-	private function __clone(){}
-	
-	public static function instance()
-	{
-		if (self::$instance == NULL){
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-	
-	public function setPersistenzManager($persManager)
-	{
-		if (!$persManager){
-			$this->persManager = $persManager;
-		}
-	}
-	
-	public function loadBenutzer($name)
-	{
-		$sqlStatement = "select name, password from benutzer where name=" . $name;
-		$data = $this->persManager->query($sqlStatement);
-		//return new Benutzer($data['name'], $data['password']);
-		return $data;
-	}
-	
-	public function saveBenutzer($benutzer)
-	{
-		$sqlStatement = NULL;
-		if (!$this->loadBenutzer($benutzer->name))
-			$sqlStatement = ""; //update statement
-		else
-			$sqlStatement = "insert into benutzer(name, password, picture) values ('$benutzer->name','$benutzer->password','$benutzer->picture')";
-			
-		$ret = mysql_query($sqlStatement);
-		if (!$ret)
-			return false;
-		return true;
-	}
+	$sqlStatement = "SELECT name, password FROM benutzer b WHERE b.name=" . "'" . $name ."'";
+	$data = PersistenzManager::instance()->query($sqlStatement);
+	$row = $data[0];
+	return new Benutzer($row['name'], $row['password']);	
 }
 
+function saveBenutzer($benutzer)
+{
+	$sqlStatement = "select name from benutzer b where b.name=" . "'" . $benutzer->name . "'";
+	$data = PersistenzManager::instance()->query($sqlStatement);
+	if (is_array($data))
+		return FALSE;
+	$sqlStatement = "insert into benutzer(name, password, picture) values(" . 
+					"'" . $benutzer->name . 
+					"'," . "'" . $benutzer->password . "'" . ", NULL)";
+	$data = PersistenzManager::instance()->query($sqlStatement);
+	if (!$data)
+		return FALSE; 
+	return TRUE;
+}
 ?>
