@@ -22,16 +22,13 @@
 	
 	$dbUrl = "127.0.0.1:3306";
 	$persManager = PersistenzManager::instance();
-	if (!$persManager->connect($dbUrl, "root", "tipp"))
-		echo "keine Verbindung zur Datenbank hergestellt";
-	
-	$benutzerManager = BenutzerManager::instance();
-	$benutzerManager->setPersistenzManager($persManager);
-	
+	if (!$persManager->connect($dbUrl, "bltippdb", "root", ""))
+		$_SESSION['error'] =  "keine Verbindung zur Datenbank hergestellt";
+		
 	$benutzer = new Benutzer($username, $password);
-	if (!$benutzerManager->saveBenutzer($benutzer))
-		echo "konnte Benutzer nicht in DB anlegen";
+	if (!saveBenutzer($benutzer))
+		$_SESSION['error'] = "konnte Benutzer nicht in DB anlegen";
 	
-	$_SESSION['username'] = $username;
+	$_SESSION['benutzer'] = $username;
 ?>
 

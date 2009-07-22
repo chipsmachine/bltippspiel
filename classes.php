@@ -6,13 +6,13 @@ class Benutzer
 	{
 		$this->name = $name;
 		$this->password = $password;
+		$this->role = 1;
 	}
 }
 
 class Spieltag
 {
-var
-	$saison, $tipps, $id;
+	public $saison, $tipps, $id;
 	function Spieltag($saison)
 	{
 		
@@ -26,7 +26,7 @@ class Saison
 
 class Tipp
 {
-var $season, $spieler, $spieltag, $id;
+public $season, $spieler, $spieltag, $id;
 
 }
 ?>

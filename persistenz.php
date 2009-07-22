@@ -6,12 +6,12 @@ class PersistenzManager
 {
 	private static $instance = NULL;
 	private $db = NULL;
-	private $connection = NULL;
+	private $connection;
 	
 	private function __construct(){}
 	private function __clone(){}
 	
-	public static function instance()
+	public static function &instance()
 	{
 		if (self::$instance == NULL){
 			self::$instance = new self;
@@ -28,13 +28,14 @@ class PersistenzManager
 		$this->db = mysql_select_db($dbname, $this->connection);
 		if (!$this->db)
 			die ('kein Zugriff auf ' . $dbname . " " . mysql_error());
-		return true;
+		return TRUE;
 	}
 	
 	public function close()
 	{
 		if (!$this->connection)
-			mysql_close($this->connection);
+			if (is_resource($this->connection))
+				mysql_close($this->connection);
 	}
 		
 	public function query($sql)
@@ -58,10 +59,14 @@ class PersistenzManager
 
 function loadBenutzer($name)
 {
-	$sqlStatement = "SELECT name, password FROM benutzer b WHERE b.name=" . "'" . $name ."'";
+	$sqlStatement = "SELECT name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
 	$data = PersistenzManager::instance()->query($sqlStatement);
+	if (!is_array($data))
+		return NULL;
 	$row = $data[0];
-	return new Benutzer($row['name'], $row['password']);	
+	$benutzer = new Benutzer($row['name'], $row['password']);
+	$benutzer->role = $row['role'];
+	return $benutzer;	
 }
 
 function saveBenutzer($benutzer)

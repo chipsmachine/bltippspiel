@@ -13,36 +13,29 @@
 			print("kein Benutzername oder Passwort angegeben");
 			exit;
 		}
-		//TODO: Benutzerdaten aus DB holen und mit Eingabe vergleichen!!
+		//TODO: Datenbank login aus config Datei lesen
 		$dbUrl = "127.0.0.1:3306";
 		$persManager = PersistenzManager::instance();
 		$persManager->connect($dbUrl, "bltippdb", "root", "");
-
-		//$benutzerManager = BenutzerManager::instance();
-		//$benutzerManager->setPersistenzManager($persManager);
-
-		//$benutzer = $benutzerManager->loadBenutzer($username);
 		
-		$return = $persManager->query("SELECT * FROM benutzer");
+		$benutzer = loadBenutzer($username);
 		
-		if (!is_array($return)){
-			echo "kein array";
+		if ($benutzer != NULL){
+			if ($benutzer->password == $password){
+				header('location:main.php');
+				$_SESSION['benutzer'] = $benutzer->name;
+				$_SESSION['role'] = $benutzer->role;
+			}
+			else{
+				header('location:login.php');
+				$_SESSION['error'] = "Passwort falsch";
+			}
 		}
-		//$_SESSION['error'] = $benutzer;
-		/*if ($benutzer){
-		 if ($password == $benutzer->password){
-			header('location:main.php');
-			$_SESSION['username'] = $username;
-			}
-			header('location:login.php');
-			$_SESSION['error'] = "Passwort falsch";
-			}
-			else {
+		else{
 			header('location:login.php');
 			$_SESSION['error'] = "konnte Benutzer nicht laden";
-			}*/
+		}
 	}
-	//echo "Benutzer $username hat sich mit Passwort $password eingeloggt";	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -69,6 +62,10 @@
 			<a href="register.html">Registrieren</a>	
 		</div>
 		<div id="footer">
+			<?php
+				if (isset($_SESSION['error']))
+					echo $_SESSION['error'];
+			?>
 		</div>
 	</div>
 </body>

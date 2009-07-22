@@ -1,10 +1,10 @@
 <?php
 session_start();
 include 'persistenz.php';
-if (!isset($_SESSION['username'])){
+if (!isset($_SESSION['benutzer'])){
 	exit;	
 }
-$inst = PersistenzManager::instance();
+$inst = &PersistenzManager::instance();
 $inst->close();
 session_destroy();
 ?>
