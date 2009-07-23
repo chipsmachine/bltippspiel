@@ -29,4 +29,22 @@ class Tipp
 public $season, $spieler, $spieltag, $id;
 
 }
+
+function tippBezeichner()
+{
+	return array('Sieg Team 1', 'Sieg Team 2', 'Unentschieden', 'Ergebnis');
+}
+function tippToNr($string)
+{
+	$tippID = array('Sieg Team 1' => 1,
+					'Sieg Team 2' => 2,
+					'Unentschieden' => 3,
+					'Ergebnis' => 4);
+	return $tippID[$string];
+}
+
+function berechnePunkte($tipp, $ergebnis)
+{
+	
+}
 ?>

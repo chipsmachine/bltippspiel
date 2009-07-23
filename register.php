@@ -20,15 +20,14 @@
 	}
 	header('location:main.php');
 	
-	$dbUrl = "127.0.0.1:3306";
-	$persManager = PersistenzManager::instance();
-	if (!$persManager->connect($dbUrl, "bltippdb", "root", ""))
+	$connection = PersistenzManager::instance()->connect();
+	if (!$connection)
 		$_SESSION['error'] =  "keine Verbindung zur Datenbank hergestellt";
-		
 	$benutzer = new Benutzer($username, $password);
 	if (!saveBenutzer($benutzer))
 		$_SESSION['error'] = "konnte Benutzer nicht in DB anlegen";
 	
 	$_SESSION['benutzer'] = $username;
+	$_SESSION['dbcon'] = $connection;
 ?>
 

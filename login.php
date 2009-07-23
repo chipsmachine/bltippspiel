@@ -14,9 +14,9 @@
 			exit;
 		}
 		//TODO: Datenbank login aus config Datei lesen
-		$dbUrl = "127.0.0.1:3306";
-		$persManager = PersistenzManager::instance();
-		$persManager->connect($dbUrl, "bltippdb", "root", "");
+		/*$dbUrl = "127.0.0.1:3306";
+		$connection = PersistenzManager::connect($dbUrl, "bltippdb", "root", "");*/
+		PersistenzManager::instance()->connect();
 		
 		$benutzer = loadBenutzer($username);
 		
@@ -25,6 +25,7 @@
 				header('location:main.php');
 				$_SESSION['benutzer'] = $benutzer->name;
 				$_SESSION['role'] = $benutzer->role;
+				$_SESSION['dbcon'] = $connection;
 			}
 			else{
 				header('location:login.php');

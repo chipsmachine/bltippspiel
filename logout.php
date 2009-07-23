@@ -4,8 +4,7 @@ include 'persistenz.php';
 if (!isset($_SESSION['benutzer'])){
 	exit;	
 }
-$inst = &PersistenzManager::instance();
-$inst->close();
+//PersistenzManager::instance()->close();
 session_destroy();
 ?>
 

@@ -83,7 +83,7 @@ font-size: 12pt;
 }
 
 th {
-	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica,
 	sans-serif;
 	color: #6D929B;
 	border-right: 1px solid #C1DAD7;
@@ -117,10 +117,11 @@ td.produkt {
 	padding: 6px 6px 6px 12px;
 	color: #6D929B;
 	text-align: center;
+	font-size: 10pt;
 }
 
 div#menueintrag {
-	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
+	font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica,
 	sans-serif;
 	color: #6D929B;
 	border-right: 1px solid #C1DAD7;
