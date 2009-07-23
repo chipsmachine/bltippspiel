@@ -1,0 +1,172 @@
+@CHARSET "ISO-8859-1";
+
+
+div#page {
+/* Hintergrundfarbe #ffffe0 setzen und zus®atzlich hintergrund.gif
+als Hintergrundbild verwenden und in y-Richtung solange
+wiederholen, bis der untere Rand erreicht ist */
+position:absolute;
+top:0%;
+left: 0%;
+background: #ffffe0 url(hintergrund.gif) repeat-y;
+/* Rahmenfarbe setzen */
+border-color: #0000CC;
+/* Rahmenbreite 1 Pixel */
+border-width: 1px;
+/* Durchgezogene Linie als Rahmen verwenden */
+border-style: solid;
+/* 1 Pixel Abstand zum Inhalt des "page"-Elements */
+padding: 1px;
+}
+
+div#header {
+/* minimale H®ohe f®ur den "header" von 10 Pixeln setzen */
+min-height: 100px;
+height:100px;
+color: #6D929B;
+background: #CAE8EA;
+border-right: 1px solid #C1DAD7;
+border-bottom: 1px solid #C1DAD7;
+border-top: 1px solid #C1DAD7;
+letter-spacing: 2px;
+text-transform: uppercase;
+/* Text zentrieren */
+text-align: center;
+width:1000px;
+z-index:1;
+}
+div#menu {
+/* das "menu" Element links ausrichten und nicht auf Seitenbreite
+ausdehnen */
+float: left;
+/* Festlegen der minimale Breite des "menu"-Element auf 160 Pixel */
+min-width: 100px;
+min-height: 400px;
+padding: 10px;
+border-right: 1px solid #C1DAD7;
+border-bottom: 1px solid #C1DAD7;
+background-color:#ffff;
+color:#6D929B;
+z-index:1;
+}
+
+
+div#content {
+/* Abstand zum linken Rand auf 160 Pixel festlegen
+(da anfangen, wo das Men®u aufh®ort) */
+margin-left: 160px;
+min-height: 400px;
+min-width:800px;
+padding: 10px 10px 10px 10px;
+color:green;
+z-index:2;
+}
+
+div#footer {
+min-height: 10px;
+background-color: #3399cc;
+text-align: center;
+z-index:1;
+}
+h1 {
+/* Setzt die Schriftgr®oﬂe von h1 auf 16 Punkte. */
+font-size: 18pt;
+}
+h2 {
+font-size: 16pt;
+}
+h3 {
+font-size: 14pt;
+}
+h4 {
+font-size: 12pt;
+}
+
+th {
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA;
+}
+
+caption {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	#border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 12px 12px 12px 12px;
+	background: #CAE8EA;	
+}
+
+td.produkt {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #6D929B;
+	text-align: center;
+	font-size: 10pt;
+}
+
+div#menueintrag {
+	font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA;	
+}
+
+div#buttonwarenkorb {
+	color: #6D929B;
+	background: #CAE8EA;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	width: 100px;
+	padding: 6px 6px 6px 12px;
+	margin-left:1%;
+	margin-top:1%;	
+}
+
+div#formrahmen {
+	color: #6D929B;
+	background: #CAE8EA;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	text-align: left;
+	width:200px;
+	margin-left:1%;
+	padding: 6px 6px 6px 12px;
+	font-size:small;
+}
+
+label, input, select{
+  display:block;
+  width: 100px;
+}
+
+
+
+td.gruppen {
+	color:black;
+	border-bottom: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-align:center;
+}
