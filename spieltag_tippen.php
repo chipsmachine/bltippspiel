@@ -34,9 +34,15 @@ if (isset($_POST['spieltage'])){
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
-		$tipps = tippBezeichner();
-		echo "<td class=produkt>" . "<input type=text size=5 maxlength=5 name=tippergebnis[] />" .
-		"</td>";	
+		$tipp = loadTipp($spiel['id']);
+		if ($tipp == FALSE){
+			echo "<td class=produkt>" . 
+			"<input type=text size=5 maxlength=5 name=tippergebnis[] />" . "</td>";			
+		}	
+		else{
+			echo "<td class=produkt>" . 
+			"<input type=text size=5 maxlength=5 name=tippergebnis[] value=".$tipp['ergebnis']." />" . "</td>";	
+		}
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -46,11 +52,13 @@ if (isset($_POST['spieltage'])){
 else if (isset($_POST['tippergebnis'])){
 	$tippErgebnis = $_POST['tippergebnis'];
 	$spielId = $_POST['spielid'];
+	$benutzerId = loadBenutzerId($_SESSION['benutzer']);
 	echo "<table>";
 	echo "<th>Nr</th>";
 	echo "<th></th>";
 	echo "<th></th>";
 	echo "<th>Tipp</th>";
+	echo "<th></th>";
 	for ($i = 0; $i < sizeof($tippErgebnis); $i++){
 		if ($tippErgebnis[$i] != NULL){
 			$spiel = loadSpiel($spielId[$i]);
@@ -59,7 +67,12 @@ else if (isset($_POST['tippergebnis'])){
 			echo "<td class=produkt>" . htmlentities($spiel['t1']) . "</td>";
 			echo "<td class=produkt>" . htmlentities($spiel['t2']) . "</td>";
 			echo "<td class=produkt>" . $tippErgebnis[$i] . "</td>";
-			echo "</tr>";	
+			if (saveTipp($benutzerId, $spielId[$i], $tippErgebnis[$i]) != FALSE)
+				echo "<td class=produkt>XX</td>";
+			else
+				echo "<td class=produkt>OK</td>";
+			echo "</tr>";
+				
 		}
 	}
 	echo "</table>";

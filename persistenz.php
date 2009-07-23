@@ -60,14 +60,24 @@ class PersistenzManager
 
 function loadBenutzer($name)
 {
-	$sqlStatement = "SELECT name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
-	$data = PersistenzManager::instance()->query($sqlStatement);
+	$sql = "SELECT name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
+	$data = PersistenzManager::instance()->query($sql);
 	if (!is_array($data))
 		return NULL;
 	$row = $data[0];
 	$benutzer = new Benutzer($row['name'], $row['password']);
 	$benutzer->role = $row['role'];
 	return $benutzer;	
+}
+
+function loadBenutzerId($name)
+{
+	$sql = "select id from benutzer where name="."'".$name."'";
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return -1;
+	$row = $data[0];
+	return $row['id'];
 }
 
 function saveBenutzer($benutzer)
@@ -112,13 +122,33 @@ function loadSpiel($spielId)
 	return $data[0];
 }
 
+function loadTipp($spielId)
+{
+	$sql = "select * from tipp where spiel_id=".$spielId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0]; 
+}
+
 function saveTipp($userId, $spielId, $ergebnis)
 {
-	$sql = "insert into tipp (user_id, spiel_id, ergebnis) values (" . 
+	// Sobald ein Tipp mit einer Spielid in der Datenbank vorhanden ist,
+	// wird ein update auf das Ergebnis ausgefŸhrt.
+	
+	if (loadTipp($spielId)){
+		$sql = "update tipp set ergebnis="."'".$ergebnis."'"." where spiel_id=".$spielId;
+		$data = PersistenzManager::instance()->query($sql);
+		if ($data)
+			return TRUE;
+	}
+	else {
+		$sql = "insert into tipp (user_id, spiel_id, ergebnis) values (" . 
 			$userId . "," . $spielId . "," . "'" . $ergebnis . "'" . ")";
-	$data = PersistenzManager::instance()->query($sql);
-	if (!$data)
-		return FALSE;		 
-	return TRUE;
+		$data = PersistenzManager::instance()->query($sql);
+		if (!$data)
+			return FALSE;		 
+		return TRUE;
+	}
 }
 ?>
