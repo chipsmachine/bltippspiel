@@ -10,21 +10,21 @@ if (!isset($_SESSION['benutzer'])){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Main</title>
-<link rel="stylesheet" type="text/css" href="/pages/style.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 	<div id="page">
 		<div id="header">
-			<?php include('/pages/header.php');?>
+			<?php include('header.php');?>
 		</div>
 		<div id="menu">
-			<?php include('/pages/menu.php');?>
+			<?php include('menu.php');?>
 		</div>
 		<div id="content">
 			aktuelles Ranking
 		</div>
 		<div id="footer">
-			<?php include('/pages/footer.php');?>
+			<?php include('footer.php');?>
 		</div>
 	</div>
 </body>

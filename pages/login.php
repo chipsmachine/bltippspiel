@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include '/src/persistenz.php';
+	include '../src/persistenz.php';
 	
 	$login = $_POST['login'];
 	
@@ -22,18 +22,18 @@
 		
 		if ($benutzer != NULL){
 			if ($benutzer->password == $password){
-				header('location:/pages/main.php');
+				header('location:main.php');
 				$_SESSION['benutzer'] = $benutzer->name;
 				$_SESSION['role'] = $benutzer->role;
 				$_SESSION['dbcon'] = $connection;
 			}
 			else{
-				header('location:/pages/login.php');
+				header('location:login.php');
 				$_SESSION['error'] = "Passwort falsch";
 			}
 		}
 		else{
-			header('location:/pages/login.php');
+			header('location:login.php');
 			$_SESSION['error'] = "konnte Benutzer nicht laden";
 		}
 	}
@@ -43,7 +43,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
-<link rel="stylesheet" type="text/css" href="/pages/style.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 	<div id="page">

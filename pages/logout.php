@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'persistenz.php';
+include '../src/persistenz.php';
 if (!isset($_SESSION['benutzer'])){
 	exit;	
 }

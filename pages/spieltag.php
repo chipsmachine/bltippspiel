@@ -1,9 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['benutzer'])){
-	header('location:/pages/login.php');	
+	header('location:login.php');	
 }
-require_once('persistenz.php');
+require_once('../src/persistenz.php');
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,21 +11,21 @@ require_once('persistenz.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Main</title>
-<link rel="stylesheet" type="text/css" href="/pages/style.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 	<div id="page">
 		<div id="header">
-			<?php include('/pages/header.php');?>
+			<?php include('header.php');?>
 		</div>
 		<div id="menu">
-			<?php include('/pages/menu.php');?>
+			<?php include('menu.php');?>
 		</div>
 		<div id="content">
-			<?php include('/pages/spieltag_tippen.php')?>
+			<?php include('spieltag_tippen.php')?>
 		</div>
 		<div id="footer">
-			<?php include('/pages/footer.php');?>
+			<?php include('footer.php');?>
 		</div>
 	</div>
 </body>

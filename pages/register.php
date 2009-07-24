@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include("/src/persistenz.php");
+	include("../src/persistenz.php");
 	
 	$username = $_POST["username"];
 	$password = $_POST["password"];
@@ -8,17 +8,17 @@
 	$repassword = $_POST["repassword"];
 	
 	if (!isset($username) || !isset($password)){
-		header('location:/pages/register.html');
+		header('location:register.html');
 		echo "Benutzername oder Passwort fehlen";
 		exit;
 	}
 	
 	if ($password != $repassword){
-		header('location:/pages/register.html');
+		header('location:register.html');
 		echo "Tippfehler bei Passworteingabe";
 		exit;
 	}
-	header('location:/pages/main.php');
+	header('location:main.php');
 	
 	$connection = PersistenzManager::instance()->connect();
 	if (!$connection)

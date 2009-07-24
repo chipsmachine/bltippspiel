@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['benutzer'])){
-	header('location:/pages/login.php');	
+	header('location:login.php');	
 }
 ?>
 
@@ -15,16 +15,16 @@ if (!isset($_SESSION['benutzer'])){
 <body>
 	<div id="page">
 		<div id="header">
-			<?php include('/pages/header.php');?>
+			<?php include('header.php');?>
 		</div>
 		<div id="menu">
-			<?php include('/pages/menu.php');?>
+			<?php include('menu.php');?>
 		</div>
 		<div id="content">
 
 		</div>
 		<div id="footer">
-			<?php include('/pages/footer.php');?>
+			<?php include('footer.php');?>
 		</div>
 	</div>
 </body>
