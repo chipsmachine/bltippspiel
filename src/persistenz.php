@@ -60,14 +60,24 @@ class PersistenzManager
 
 function loadBenutzer($name)
 {
-	$sql = "SELECT name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
+	$sql = "SELECT id, name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
 	$data = PersistenzManager::instance()->query($sql);
 	if (!is_array($data))
 		return NULL;
 	$row = $data[0];
 	$benutzer = new Benutzer($row['name'], $row['password']);
 	$benutzer->role = $row['role'];
+	$benutzer->id = $row['id'];
 	return $benutzer;	
+}
+
+function loadAlleBenutzer()
+{
+	$sql = "select id,name,role from benutzer";
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return NULL;
+	return $data;
 }
 
 function loadBenutzerId($name)
@@ -129,6 +139,15 @@ function loadTipp($spielId)
 	if (!is_array($data))
 		return FALSE;
 	return $data[0]; 
+}
+
+function loadTipps($benutzerId)
+{
+	$sql = "select * from tipp where user_id=".$benutzerId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data;
 }
 
 function saveTipp($userId, $spielId, $ergebnis)

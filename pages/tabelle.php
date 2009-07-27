@@ -3,6 +3,7 @@ session_start();
 if (!isset($_SESSION['benutzer'])){
 	header('location:/pages/login.php');	
 }
+include('../src/persistenz.php');
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,7 +22,7 @@ if (!isset($_SESSION['benutzer'])){
 			<?php include('menu.php');?>
 		</div>
 		<div id="content">
-			aktuelles Ranking
+			<?php include('tabelle_view.php');?>
 		</div>
 		<div id="footer">
 			<?php include('footer.php');?>

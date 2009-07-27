@@ -30,6 +30,8 @@ public $season, $spieler, $spieltag, $id;
 
 }
 
+
+
 function tippBezeichner()
 {
 	return array('Sieg Team 1', 'Sieg Team 2', 'Unentschieden', 'Ergebnis');
@@ -45,6 +47,42 @@ function tippToNr($string)
 
 function berechnePunkte($tipp, $ergebnis)
 {
+	// Ergebnis und Tipp sind gleich
+	if ($ergebnis == $tipp)
+		return 4;
+	$erg_arr = explode(":", $ergebnis);
+	$tipp_arr = explode(":", $tipp);
 	
+	$erg_tore_links = $erg_arr[0];
+	$erg_tore_rechts = $erg_arr[1];
+	
+	$tipp_tore_links = $tipp_arr[0];
+	$tipp_tore_rechts = $tipp_arr[1];
+	
+	$erg_diff = $erg_tore_links - $erg_tore_rechts;
+	$tipp_diff = $tipp_tore_links - $tipp_tore_rechts;
+	
+	// Unentschiden getippt, Ergebnisse aber unterschiedlich 2 -> Punkte
+	// z.B. 1:1 und 2:2
+	if ($erg_diff == 0 && $tipp_diff == 0) 
+		return 2;
+	// Team1 gewinnt gegen Team2 (Team1 = Heimteam ???)
+	// Bei gleicher Tordifferenz aber unterschiedlichem Ergebnis -> 2 Punkte
+	// Bei unterschiedlichem Ergebnis und Tordifferenz -> 1 Punkt
+	if ($erg_tore_links > $erg_tore_rechts && $tipp_tore_links > $tipp_tore_rechts){
+		if ($erg_diff == $tipp_diff)
+			return 2;
+		else
+			return 1;
+	}
+	// Team 1 verliert gegen Team2 (Team2 = AuswŠrtsteam ???)
+	// s.o.
+	if ($erg_tore_links < $erg_tore_rechts && $tipp_tore_links < $tipp_tore_rechts){
+		if ($erg_diff == $tipp_diff)
+			return 2;
+		else
+			return 1;
+	}
+	return 0;
 }
 ?>

@@ -3,6 +3,7 @@ session_start();
 if (!isset($_SESSION['benutzer'])){
 	header('location:login.php');	
 }
+require_once('../src/persistenz.php');
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,7 +22,7 @@ if (!isset($_SESSION['benutzer'])){
 			<?php include('menu.php');?>
 		</div>
 		<div id="content">
-			Benutzerstatistiken
+			<?php include('benutzer_view.php');?>
 		</div>
 		<div id="footer">
 			<?php include('footer.php');?>

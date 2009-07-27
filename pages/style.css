@@ -23,8 +23,9 @@ div#header {
 /* minimale H¨ohe f¨ur den "header" von 10 Pixeln setzen */
 min-height: 100px;
 height:100px;
-color: #6D929B;
-background: #CAE8EA;
+/*color: #6D929B;*/
+color: #FFFFFF;
+background: #C30000;
 border-right: 1px solid #C1DAD7;
 border-bottom: 1px solid #C1DAD7;
 border-top: 1px solid #C1DAD7;
