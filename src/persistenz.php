@@ -20,16 +20,35 @@ class PersistenzManager
 		return self::$instance;
 	}
 	
+	private function readConfig()
+	{
+		$fh = fopen("../config/dbconfig.conf", "r");
+		$config_arr = array();
+		if ($fh != FALSE){
+			while (!feof($fh)){
+				$line = fgets($fh, 80);
+				$pair = explode("=", $line);
+				$key = ltrim(rtrim($pair[0]));
+				$value = ltrim(rtrim($pair[1]));
+				$config_arr[$key] = $value;
+			}
+			fclose($fh);
+		}
+		return $config_arr;
+	}
+	
 	public function connect()
 	{
-		$url = "127.0.0.1:3306";
-		$this->connection = mysql_connect($url, "root", "");
+		$config = $this->readConfig();
+		//print_r($config);
+		$url = $config['url'];//"127.0.0.1:3306";
+		$this->connection = mysql_connect($config['url'], $config['user'], $config['pwd']);
 		if (!$this->connection)
 			die('could not connect: ' . mysql_error());
 			
-		$db = mysql_select_db("bltippdb", $this->connection);
+		$db = mysql_select_db($config['db'], $this->connection);
 		if (!$db)
-			die ('kein Zugriff auf ' . $dbname . " " . mysql_error());
+			die ('kein Zugriff auf ' . $config['db'] . " " . mysql_error());
 		return TRUE;
 	}	
 	public function close()

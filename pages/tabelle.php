@@ -15,9 +15,7 @@ include('../src/persistenz.php');
 </head>
 <body>
 	<div id="page">
-		<div id="header">
-			<?php include('header.php');?>
-		</div>
+		<?php include('header.php');?>
 		<div id="menu">
 			<?php include('menu.php');?>
 		</div>

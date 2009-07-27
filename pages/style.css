@@ -21,8 +21,9 @@ padding: 1px;
 
 div#header {
 /* minimale H¨ohe f¨ur den "header" von 10 Pixeln setzen */
-min-height: 100px;
-height:100px;
+min-height: 120px;
+height:120px;
+float:center;
 /*color: #6D929B;*/
 color: #FFFFFF;
 background: #C30000;
@@ -36,6 +37,16 @@ text-align: center;
 width:1000px;
 z-index:1;
 }
+
+div#leftcorner{
+color: #FFFFFF;
+background: #C30000;
+text-align: left;
+float:left;
+width:100px;
+height:120px;
+z-index:0;
+}
 div#menu {
 /* das "menu" Element links ausrichten und nicht auf Seitenbreite
 ausdehnen */
@@ -46,8 +57,8 @@ min-height: 400px;
 padding: 10px;
 border-right: 1px solid #C1DAD7;
 border-bottom: 1px solid #C1DAD7;
-background-color:#ffff;
-color:#6D929B;
+background-color:#FFFFFF;
+color:#FFFFFF; /*#6D929B;*/
 z-index:1;
 }
 
@@ -65,7 +76,8 @@ z-index:2;
 
 div#footer {
 min-height: 10px;
-background-color: #3399cc;
+background-color: #C30000;
+color: #FFFFFF;
 text-align: center;
 z-index:1;
 }
@@ -130,7 +142,7 @@ div#menueintrag {
 	border-top: 1px solid #C1DAD7;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #CAE8EA;	
+	background: #E2E2E2; /*#CAE8EA;*/	
 }
 
 div#buttonwarenkorb {
