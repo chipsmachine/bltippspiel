@@ -2,10 +2,14 @@
 
 include 'classes.php';
 
+/**
+ * Singleton stellt Datenbankverbindung her und setzt Datenbankabfragen ab
+ * In jeder Script Datei muss PersistenzManager::instance()->connect()
+ * aufgerufen werden, bevor ein DB Zugriff erfolgen kann.
+ */
 class PersistenzManager
 {
 	private static $instance = NULL;
-	//private $db = NULL;
 	private $connection;
 	
 	private function __construct(){}
@@ -40,8 +44,7 @@ class PersistenzManager
 	public function connect()
 	{
 		$config = $this->readConfig();
-		//print_r($config);
-		$url = $config['url'];//"127.0.0.1:3306";
+		$url = $config['url'];
 		$this->connection = mysql_connect($config['url'], $config['user'], $config['pwd']);
 		if (!$this->connection)
 			die('could not connect: ' . mysql_error());
@@ -50,25 +53,35 @@ class PersistenzManager
 		if (!$db)
 			die ('kein Zugriff auf ' . $config['db'] . " " . mysql_error());
 		return TRUE;
-	}	
+	}
+	
+	/**
+	 * Muss nicht explizit aufgerufen werden.
+	 * DB Verbindungen existieren nicht Ÿber Scriptgrenzen hinweg.
+	 */ 
+	 
 	public function close()
 	{
 		if (!$this->connection)
 			if (is_resource($this->connection))
 				mysql_close($this->connection);
 	}
-		
+	
+	/**
+	 * Absetzen einer Datenbankabfrage.
+	 * RŸckgabe von SELECT, INSERT, UPDATE und DELETE berŸcksichtigen !!
+	 */
 	public function query($sql)
 	{
 		$result = mysql_query($sql, $this->connection);
 		
 		if (!$result)
 			die('Abfragefehler ' . mysql_error());
-		if (!is_resource($result))
+		if (!is_resource($result))  // INSERT, UPDATE, DELETE
 			return TRUE;	
 		if (mysql_num_rows($result) == 0)
 			return FALSE;
-		
+		// Ergebnismenge des SELECT Befehls
 		$array = array();
 		while ($row = mysql_fetch_assoc($result)){
 			array_push($array, $row);

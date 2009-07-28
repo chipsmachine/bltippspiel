@@ -4,6 +4,7 @@ include '../src/persistenz.php';
 if (!isset($_SESSION['benutzer'])){
 	exit;	
 }
+header('location:login.php');
 //PersistenzManager::instance()->close();
 session_destroy();
 ?>

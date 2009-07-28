@@ -17,7 +17,7 @@ echo "</form><br><br>";
 
 if (isset($_POST['spieltage'])){
 	$spiele = loadSpiele($_POST['spieltage']);
-	
+	echo "Spieltag: ".$_POST['spieltage']."<br>";
 	echo "<form name=spieleForm method=post action=spieltag.php>";
 	echo "<table>";
 	echo "<tr>" .
