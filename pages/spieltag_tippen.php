@@ -32,11 +32,13 @@ if (isset($_POST['spieltage'])){
 	
 	for ($i = 0; $i < sizeof($spiele); $i++){
 		$spiel = $spiele[$i];
+		
 		echo "<tr>" .
 		"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
+		
 		$tipp = loadTippFromUser($spiel['id'], $benutzer_id);
 		if (!isTippExpired($spiel['id'])){
 			if ($tipp == FALSE){
