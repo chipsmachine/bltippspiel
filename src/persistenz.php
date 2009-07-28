@@ -206,6 +206,15 @@ function loadTipp($spielId)
 	return $data[0]; 
 }
 
+function loadTippFromUser($spielId, $benutzerId)
+{
+	$sql = "select * from tipp where spiel_id=".$spielId." and user_id=".$benutzerId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0]; 
+}
+
 function loadTipps($benutzerId)
 {
 	$sql = "select * from tipp where user_id=".$benutzerId;
@@ -220,8 +229,8 @@ function saveTipp($userId, $spielId, $ergebnis)
 	// Sobald ein Tipp mit einer Spielid in der Datenbank vorhanden ist,
 	// wird ein update auf das Ergebnis ausgefŸhrt.
 	
-	if (loadTipp($spielId)){
-		$sql = "update tipp set ergebnis="."'".$ergebnis."'"." where spiel_id=".$spielId;
+	if (loadTippFromUser($spielId, $userId)){
+		$sql = "update tipp set ergebnis="."'".$ergebnis."'"." where spiel_id=".$spielId." and user_id=".$userId;
 		$data = PersistenzManager::instance()->query($sql);
 		if ($data)
 			return TRUE;

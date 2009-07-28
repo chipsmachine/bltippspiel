@@ -17,6 +17,8 @@ echo "</form><br><br>";
 
 if (isset($_POST['spieltage'])){
 	$spiele = loadSpiele($_POST['spieltage']);
+	$benutzer_id = loadBenutzerId($_SESSION['benutzer']);
+	
 	echo "Spieltag: ".$_POST['spieltage']."<br>";
 	echo "<form name=spieleForm method=post action=spieltag.php>";
 	echo "<table>";
@@ -27,6 +29,7 @@ if (isset($_POST['spieltage'])){
 	"<th>Ergebnis</th>" .
 	"<th>Tipp</th>" .
 	"</tr>";
+	
 	for ($i = 0; $i < sizeof($spiele); $i++){
 		$spiel = $spiele[$i];
 		echo "<tr>" .
@@ -34,7 +37,7 @@ if (isset($_POST['spieltage'])){
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
-		$tipp = loadTipp($spiel['id']);
+		$tipp = loadTippFromUser($spiel['id'], $benutzer_id);
 		if (!isTippExpired($spiel['id'])){
 			if ($tipp == FALSE){
 				echo "<td class=produkt>" . 
@@ -72,12 +75,16 @@ else if (isset($_POST['tippergebnis'])){
 			echo "<td class=produkt>" . htmlentities($spiel['t1']) . "</td>";
 			echo "<td class=produkt>" . htmlentities($spiel['t2']) . "</td>";
 			echo "<td class=produkt>" . $tippErgebnis[$i] . "</td>";
-			if (saveTipp($benutzerId, $spielId[$i], $tippErgebnis[$i]) != FALSE)
-				echo "<td class=produkt>XX</td>";
+			if (ereg("[0-9]{1}:[0-9]{1}", $tippErgebnis[$i])){
+				if (saveTipp($benutzerId, $spielId[$i], $tippErgebnis[$i]) != FALSE)
+					echo "<td class=produkt>OK</td>";
+				else
+					echo "<td class=produkt>XX</td>";
+			}
 			else
-				echo "<td class=produkt>OK</td>";
-			echo "</tr>";
-				
+				echo "<td class=produkt>".htmlentities("ungültiges Ergebnis")."</td>";
+			
+			echo "</tr>";	
 		}
 	}
 	echo "</table>";

@@ -25,7 +25,7 @@
 				header('location:main.php');
 				$_SESSION['benutzer'] = $benutzer->name;
 				$_SESSION['role'] = $benutzer->role;
-				$_SESSION['dbcon'] = $connection;
+				$_SESSION['id'] = $benutzer->id;
 			}
 			else{
 				header('location:login.php');
