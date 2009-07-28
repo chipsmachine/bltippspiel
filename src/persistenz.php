@@ -124,6 +124,39 @@ function saveBenutzer($benutzer)
 	return TRUE;
 }
 
+function isTippExpired($spielId)
+{
+	$sql = "select zeit from spiele where id=".$spielId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return TRUE;
+	$curr_time_stamp = time();
+	$spiel = $data[0];
+	
+	// String in Datum und Uhrzeit aufsplitten
+	// (amerikanisches Datumsformat YYYY-MM-DD !!)
+	$datetime = explode(" ", $spiel['zeit']);
+	$date_str = $datetime[0];
+	$time_str = $datetime[1];
+	
+	$date = explode("-", $date_str);
+	$time = explode(":", $time_str);
+	
+	$year = $date[0];
+	$day = $date[2];
+	$month = $date[1];
+	
+	$hour = $time[0];
+	$min = $time[1];
+	$sec = $time[2];
+	
+	$spiel_time_stamp = mktime($hour, $min, $sec, $month, $day, $year);
+	
+	if ($curr_time_stamp < $spiel_time_stamp)
+		return FALSE;
+	return TRUE;
+}
+
 function loadSpieltage()
 {
 	$sql = "select * from spieltage";

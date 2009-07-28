@@ -22,9 +22,7 @@ require_once('../src/persistenz.php');
 		<div id="content">
 			<?php include('spieltag_tippen.php')?>
 		</div>
-		<div id="footer">
-			<?php include('footer.php');?>
-		</div>
+		<?php include('footer.php');?>
 	</div>
 </body>
 </html>

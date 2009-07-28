@@ -45,6 +45,8 @@ function tippToNr($string)
 	return $tippID[$string];
 }
 
+
+
 function berechnePunkte($tipp, $ergebnis)
 {
 	// Ergebnis und Tipp sind gleich

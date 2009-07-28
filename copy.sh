@@ -1,7 +1,6 @@
 #/bin/bash
 
-WEB_DIR=~/web
+SRC_DIR=~/Documents/workspace/bltipp/
+DEST_DIR=~/web
 
-cp -v *.php $WEB_DIR
-cp -v *.html $WEB_DIR 
-cp -v *.css $WEB_DIR
+rsync -av $SRC_DIR $DEST_DIR

@@ -22,9 +22,7 @@ include('../src/persistenz.php');
 		<div id="content">
 			<?php include('tabelle_view.php');?>
 		</div>
-		<div id="footer">
-			<?php include('footer.php');?>
-		</div>
+		<?php include('footer.php');?>
 	</div>
 </body>
 </html>

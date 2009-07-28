@@ -35,13 +35,18 @@ if (isset($_POST['spieltage'])){
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
 		$tipp = loadTipp($spiel['id']);
-		if ($tipp == FALSE){
-			echo "<td class=produkt>" . 
-			"<input type=text size=5 maxlength=5 name=tippergebnis[] />" . "</td>";			
-		}	
-		else{
-			echo "<td class=produkt>" . 
-			"<input type=text size=5 maxlength=5 name=tippergebnis[] value=".$tipp['ergebnis']." />" . "</td>";	
+		if (!isTippExpired($spiel['id'])){
+			if ($tipp == FALSE){
+				echo "<td class=produkt>" . 
+				"<input type=text size=5 maxlength=5 name=tippergebnis[] />" . "</td>";			
+			}	
+			else{
+				echo "<td class=produkt>" . 
+				"<input type=text size=5 maxlength=5 name=tippergebnis[] value=".$tipp['ergebnis']." />" . "</td>";	
+			}
+		}
+		else {
+			echo "<td class=produkt>" . $tipp['ergebnis'] . "</td>";
 		}
 		echo "</tr>";
 	}

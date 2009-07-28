@@ -19,11 +19,8 @@ if (!isset($_SESSION['benutzer'])){
 			<?php include('menu.php');?>
 		</div>
 		<div id="content">
-
 		</div>
-		<div id="footer">
-			<?php include('footer.php');?>
-		</div>
+		<?php include('footer.php');?>
 	</div>
 </body>
 </html>

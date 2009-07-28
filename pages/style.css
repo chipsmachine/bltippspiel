@@ -8,7 +8,8 @@ wiederholen, bis der untere Rand erreicht ist */
 position:absolute;
 top:0%;
 left: 0%;
-background: #ffffe0 url(hintergrund.gif) repeat-y;
+/*background: #E1E1E1;*/
+background-image: url(../res/img/backgr.png);
 /* Rahmenfarbe setzen */
 border-color: #0000CC;
 /* Rahmenbreite 1 Pixel */
@@ -53,11 +54,11 @@ ausdehnen */
 float: left;
 /* Festlegen der minimale Breite des "menu"-Element auf 160 Pixel */
 min-width: 100px;
-min-height: 400px;
+min-height: 500px;
 padding: 10px;
 border-right: 1px solid #C1DAD7;
 border-bottom: 1px solid #C1DAD7;
-background-color:#FFFFFF;
+background-color:#C30000;
 color:#FFFFFF; /*#6D929B;*/
 z-index:1;
 }
@@ -67,16 +68,18 @@ div#content {
 /* Abstand zum linken Rand auf 160 Pixel festlegen
 (da anfangen, wo das Men¨u aufh¨ort) */
 margin-left: 160px;
-min-height: 400px;
+min-height: 500px;
 min-width:800px;
 padding: 10px 10px 10px 10px;
-color:green;
+color:black;
 z-index:2;
+
 }
 
 div#footer {
 min-height: 10px;
 background-color: #C30000;
+float:bottom;
 color: #FFFFFF;
 text-align: center;
 z-index:1;
@@ -98,7 +101,7 @@ font-size: 12pt;
 th {
 	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica,
 	sans-serif;
-	color: #6D929B;
+	color: #FFFFFF;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	border-top: 1px solid #C1DAD7;
@@ -106,7 +109,7 @@ th {
 	text-transform: uppercase;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #CAE8EA;
+	background: #C30000;
 }
 
 caption {
@@ -128,7 +131,8 @@ td.produkt {
 	border-bottom: 1px solid #C1DAD7;
 	background: #fff;
 	padding: 6px 6px 6px 12px;
-	color: #6D929B;
+	color: black;
+	font-weight:bold;
 	text-align: center;
 	font-size: 10pt;
 }
