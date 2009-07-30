@@ -137,18 +137,11 @@ function saveBenutzer($benutzer)
 	return TRUE;
 }
 
-function isTippExpired($spielId)
+function timeStamp($dateTime)
 {
-	$sql = "select zeit from spiele where id=".$spielId;
-	$data = PersistenzManager::instance()->query($sql);
-	if (!is_array($data))
-		return TRUE;
-	$curr_time_stamp = time();
-	$spiel = $data[0];
-	
 	// String in Datum und Uhrzeit aufsplitten
 	// (amerikanisches Datumsformat YYYY-MM-DD !!)
-	$datetime = explode(" ", $spiel['zeit']);
+	$datetime = explode(" ", $dateTime);
 	$date_str = $datetime[0];
 	$time_str = $datetime[1];
 	
@@ -163,7 +156,19 @@ function isTippExpired($spielId)
 	$min = $time[1];
 	$sec = $time[2];
 	
-	$spiel_time_stamp = mktime($hour, $min, $sec, $month, $day, $year);
+	return mktime($hour, $min, $sec, $month, $day, $year);
+}
+
+function isTippExpired($spielId)
+{
+	$sql = "select zeit from spiele where id=".$spielId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return TRUE;
+	$curr_time_stamp = time();
+	$spiel = $data[0];
+		
+	$spiel_time_stamp = timeStamp($spiel['zeit']);
 	
 	if ($curr_time_stamp < $spiel_time_stamp)
 		return FALSE;
@@ -205,7 +210,6 @@ function loadTipp($spielId)
 		return FALSE;
 	return $data[0]; 
 }
-
 function loadTippFromUser($spielId, $benutzerId)
 {
 	$sql = "select * from tipp where spiel_id=".$spielId." and user_id=".$benutzerId;
@@ -213,6 +217,16 @@ function loadTippFromUser($spielId, $benutzerId)
 	if (!is_array($data))
 		return FALSE;
 	return $data[0]; 
+}
+function loadTippAndErgebnis($userId)
+{
+	$sql = "select s.ergebnis, t.ergebnis as tipp, s.zeit from spiele s " .
+		   "inner join tipp t on s.id = t.spiel_id ".
+		   "where t.user_id=".$userId;
+	$data = PersistenzManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data;
 }
 
 function loadTipps($benutzerId)
