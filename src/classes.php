@@ -64,6 +64,11 @@ function tippToNr($string)
 
 function berechnePunkte($tipp, $ergebnis)
 {
+	$exp = "[0-9]{1}:[0-9]{1}";
+	if (empty($tipp) || empty($ergebnis))
+		return 0;
+	if (ereg($exp, $tipp) || ereg($exp, $tipp))
+		return 0;
 	// Ergebnis und Tipp sind gleich
 	if ($ergebnis == $tipp)
 		return 4;
