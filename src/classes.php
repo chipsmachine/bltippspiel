@@ -30,7 +30,22 @@ public $season, $spieler, $spieltag, $id;
 
 }
 
-
+/*class Table
+{
+	private $html_string;
+	function Table()
+	{
+	}
+	function begin()
+	{
+		$html_string = "<table><br>";
+	}
+	function end()
+	{
+		$html_string = "</table><br>";
+	}
+	function add
+}*/
 
 function tippBezeichner()
 {
