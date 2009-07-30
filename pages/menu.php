@@ -1,7 +1,6 @@
 
 <div id="menueintrag"><a href="/pages/tabelle.php">Tabelle</a></div>
 <div id="menueintrag"><a href="/pages/spieltag.php">Spieltag</a></div>
-<div id="menueintrag"><a href="/pages/benutzer.php">Benutzer</a></div>
 <div id="menueintrag"><a href="/pages/logout.php">Logout</a></div>
 <?php
 	if (isset($_SESSION['role'])){
