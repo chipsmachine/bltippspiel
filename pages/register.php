@@ -20,14 +20,12 @@
 	}
 	header('location:main.php');
 	
-	$connection = PersistenzManager::instance()->connect();
-	if (!$connection)
+	if (!PersistencyManager::instance()->connect())
 		$_SESSION['error'] =  "keine Verbindung zur Datenbank hergestellt";
 	$benutzer = new Benutzer($username, $password);
-	if (!saveBenutzer($benutzer))
+	if (!saveUser($benutzer))
 		$_SESSION['error'] = "konnte Benutzer nicht in DB anlegen";
 	
 	$_SESSION['benutzer'] = $username;
-	$_SESSION['dbcon'] = $connection;
 ?>
 

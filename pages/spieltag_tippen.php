@@ -1,5 +1,5 @@
 <?php
-PersistenzManager::instance()->connect();
+PersistencyManager::instance()->connect();
 $spieltage = loadSpieltage();
 
 echo "<h3>Spieltag</h3>";
@@ -17,7 +17,7 @@ echo "</form><br><br>";
 
 if (isset($_POST['spieltage'])){
 	$spiele = loadSpiele($_POST['spieltage']);
-	$benutzer_id = loadBenutzerId($_SESSION['benutzer']);
+	$benutzer_id = loadUserId($_SESSION['benutzer']);
 	
 	echo "Spieltag: ".$_POST['spieltage']."<br>";
 	echo "<form name=spieleForm method=post action=spieltag.php>";
@@ -62,7 +62,7 @@ if (isset($_POST['spieltage'])){
 else if (isset($_POST['tippergebnis'])){
 	$tippErgebnis = $_POST['tippergebnis'];
 	$spielId = $_POST['spielid'];
-	$benutzerId = loadBenutzerId($_SESSION['benutzer']);
+	$benutzerId = loadUserId($_SESSION['benutzer']);
 	echo "<table>";
 	echo "<th>Nr</th>";
 	echo "<th></th>";

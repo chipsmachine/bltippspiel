@@ -19,6 +19,18 @@ class Spieltag
 	}
 }
 
+class Spiel
+{
+	public $saison, $t1, $t2, $ergebnis, $anstoss;
+	function Spiel($saison, $t1, $t2, $ergebnis, $anstoss)
+	{
+		$this->saison = $saison;
+		$this->saison = $t1;
+		$this->saison = $t2;
+		$this->saison = $ergebnis;
+		$this->saison = $anstoss;
+	}
+}
 class Saison
 {
 	

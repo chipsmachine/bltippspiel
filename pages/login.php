@@ -13,12 +13,9 @@
 			print("kein Benutzername oder Passwort angegeben");
 			exit;
 		}
-		//TODO: Datenbank login aus config Datei lesen
-		/*$dbUrl = "127.0.0.1:3306";
-		$connection = PersistenzManager::connect($dbUrl, "bltippdb", "root", "");*/
-		PersistenzManager::instance()->connect();
+		PersistencyManager::instance()->connect();
 		
-		$benutzer = loadBenutzer($username);
+		$benutzer = loadUser($username);
 		
 		if ($benutzer != NULL){
 			if ($benutzer->password == $password){

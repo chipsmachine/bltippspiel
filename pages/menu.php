@@ -6,7 +6,7 @@
 	if (isset($_SESSION['role'])){
 		if ($_SESSION['role'] == 2){
 			echo "<br><br>";
-			echo "<div id=" . "'" . "menueintrag" . "'" . "><a>Admin</a></div>"; 
+			echo "<div id=" . "'" . "menueintrag" . "'" . "><a href=admin.php>Admin</a></div>"; 
 		}
 	}
 ?>

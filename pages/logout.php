@@ -5,7 +5,7 @@ if (!isset($_SESSION['benutzer'])){
 	exit;	
 }
 header('location:login.php');
-//PersistenzManager::instance()->close();
+//PersistencyManager::instance()->close();
 session_destroy();
 ?>
 

@@ -1,6 +1,6 @@
 <?php
-PersistenzManager::instance()->connect();
-$benutzer = loadAlleBenutzer();
+PersistencyManager::instance()->connect();
+$benutzer = loadAllUser();
 if ($benutzer != NULL){
 	// Punktetabelle berechnen
 	$tabelle = array();
