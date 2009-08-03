@@ -232,7 +232,7 @@ function loadSpiele($spieltagId)
 {
 	if (empty($spieltagId))
 		return FALSE;
-	$sql = "select id, t1, t2, ergebnis from spiele where spieltag_id=".$spieltagId;
+	$sql = "select id, t1, t2, ergebnis, zeit from spiele where spieltag_id=".$spieltagId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return FALSE;
@@ -250,12 +250,23 @@ function loadSpiel($spielId)
 	return $data[0];
 }
 
-function saveSpiel($spieltagId, $heim, $ausw, $zeit)
+function saveSpiel($spieltagId, $heim, $ausw, $ergebnis, $zeit)
 {
 	if (empty($spieltagId) || empty($heim) || empty($ausw) ||empty($zeit))
 		return FALSE;
 	$sql = "insert into spiele (spieltag_id, t1, t2, ergebnis, zeit) values".
-			"(".$spieltagId.",'".$heim."','".$ausw."','','".$zeit."')";
+			"(".$spieltagId.",'".$heim."','".$ausw."','".$ergebnis."','".$zeit."')";
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return TRUE;
+	return FALSE;
+}
+
+function updateSpiel($spielId, $heim, $ausw, $erg, $zeit)
+{
+	if (empty($spielId))
+		return FALSE;
+	$sql = "update spiele set t1='".$heim."',t2='".$ausw."', ergebnis='".$erg."',zeit='".$zeit."' where id=".$spielId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return TRUE;
