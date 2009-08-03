@@ -59,21 +59,6 @@ public $season, $spieler, $spieltag, $id;
 	function add
 }*/
 
-function tippBezeichner()
-{
-	return array('Sieg Team 1', 'Sieg Team 2', 'Unentschieden', 'Ergebnis');
-}
-function tippToNr($string)
-{
-	$tippID = array('Sieg Team 1' => 1,
-					'Sieg Team 2' => 2,
-					'Unentschieden' => 3,
-					'Ergebnis' => 4);
-	return $tippID[$string];
-}
-
-
-
 function berechnePunkte($tipp, $ergebnis)
 {
 	$exp = "[0-9]{1}:[0-9]{1}";

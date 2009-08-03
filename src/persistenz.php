@@ -92,6 +92,8 @@ class PersistencyManager
 
 function loadUser($name)
 {
+	if (empty($name))
+		return FALSE;
 	$sql = "SELECT id, name, password, role FROM benutzer b WHERE b.name=" . "'" . $name ."'";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
@@ -114,6 +116,8 @@ function loadAllUser()
 
 function loadUserId($name)
 {
+	if (empty($name))
+		return FALSE;
 	$sql = "select id from benutzer where name="."'".$name."'";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
@@ -128,6 +132,8 @@ function loadUserId($name)
  */
 function saveUser($user)
 {
+	if (empty($user))
+		return FALSE;
 	$sql = "select name from benutzer b where b.name=" . "'" . $user->name . "'";
 	$data = PersistencyManager::instance()->query($sql);
 	if (is_array($data))
@@ -165,6 +171,8 @@ function timeStamp($dateTime)
 
 function isTippExpired($spielId)
 {
+	if (empty($spielId))
+		return TRUE;
 	$sql = "select zeit from spiele where id=".$spielId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
@@ -179,13 +187,36 @@ function isTippExpired($spielId)
 	return TRUE;
 }
 
+function loadSeasons()
+{
+	$sql = "select * from saisons";
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data;
+}
+
 function saveSpieltag($nr, $saison)
 {
-	$sql = "insert into spieltage (saison_id, nr, datum) values (".$saison.",".$nr.",,)";
+	if (empty($nr) || empty($saison))
+		return FALSE;
+	$e = "";
+	$sql = "insert into spieltage (saison_id, nr, datum) values (".$saison.",".$nr.","."'".$e."'".")";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return TRUE;
 	return FALSE;
+}
+
+function loadSpieltag($nr)
+{
+	if (empty($nr))
+		return FALSE;
+	$sql = "select * from spieltage where nr=".$nr;
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0];
 }
 
 function loadSpieltage()
@@ -197,9 +228,11 @@ function loadSpieltage()
 	return $data;
 }
 
-function loadSpiele($spieltagNr)
+function loadSpiele($spieltagId)
 {
-	$sql = "select id, t1, t2, ergebnis from spiele where spieltag_id=".$spieltagNr;
+	if (empty($spieltagId))
+		return FALSE;
+	$sql = "select id, t1, t2, ergebnis from spiele where spieltag_id=".$spieltagId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return FALSE;
@@ -208,6 +241,8 @@ function loadSpiele($spieltagNr)
 
 function loadSpiel($spielId)
 {
+	if (empty($spielId))
+		return FALSE;
 	$sql = "select t1, t2, ergebnis from spiele where id=".$spielId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
@@ -217,8 +252,10 @@ function loadSpiel($spielId)
 
 function saveSpiel($spieltagId, $heim, $ausw, $zeit)
 {
+	if (empty($spieltagId) || empty($heim) || empty($ausw) ||empty($zeit))
+		return FALSE;
 	$sql = "insert into spiele (spieltag_id, t1, t2, ergebnis, zeit) values".
-			"(".$spieltagId.",".$heim.",".$ausw.",".$zeit.")";
+			"(".$spieltagId.",'".$heim."','".$ausw."','','".$zeit."')";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return TRUE;
@@ -241,6 +278,8 @@ function loadTipp($spielId)
  */
 function loadTippFromUser($spielId, $benutzerId)
 {
+	if (empty($spielId) || empty($benutzerId))
+		return FALSE;
 	$sql = "select * from tipp where spiel_id=".$spielId." and user_id=".$benutzerId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))

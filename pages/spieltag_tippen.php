@@ -16,7 +16,8 @@ echo "<input type=submit name=Submit value=laden />";
 echo "</form><br><br>";
 
 if (isset($_POST['spieltage'])){
-	$spiele = loadSpiele($_POST['spieltage']);
+	$spieltag = loadSpieltag($_POST['spieltage']);
+	$spiele = loadSpiele($spieltag['id']);
 	$benutzer_id = loadUserId($_SESSION['benutzer']);
 	
 	echo "Spieltag: ".$_POST['spieltage']."<br>";
