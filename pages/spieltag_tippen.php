@@ -24,7 +24,7 @@ if (isset($_POST['spieltage'])){
 	echo "<form name=spieleForm method=post action=spieltag.php>";
 	echo "<table>";
 	echo "<tr>" .
-	"<th> </th" .
+	"<th> </th>" .
 	"<th>Team 1</th>" .
 	"<th>Team 2</th>" .
 	"<th>Ergebnis</th>" .
