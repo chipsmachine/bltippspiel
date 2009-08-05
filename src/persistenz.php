@@ -118,7 +118,7 @@ function loadUser($name)
 
 function loadAllUser()
 {
-	$sql = "select id,name,role from benutzer";
+	$sql = "select id,name,picture, role from benutzer";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return NULL;
@@ -207,12 +207,11 @@ function loadSeasons()
 	return $data;
 }
 
-function saveSpieltag($nr, $saison)
+function saveSpieltag($nr, $saison, $date)
 {
-	if (empty($nr) || empty($saison))
+	if (empty($nr) || empty($saison) || empty($date))
 		return FALSE;
-	$e = "";
-	$sql = "insert into spieltage (saison_id, nr, datum) values (".$saison.",".$nr.","."'".$e."'".")";
+	$sql = "insert into spieltage (saison_id, nr, datum) values (".$saison.",".$nr.","."'".$date."'".")";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return TRUE;
@@ -244,7 +243,7 @@ function loadSpiele($spieltagId)
 	if (empty($spieltagId))
 		return FALSE;
 	$sql = "select spiele.id as id, spiele.spieltag_id as spieltag_id, v1.name as t1, v2.name as t2,". 
-	       "spiele.ergebnis as ergebnis, spiele.zeit as zeit from spiele ".
+	       "spiele.ergebnis as ergebnis, spiele.zeit as zeit, v1.wappen as t1w, v2.wappen as t2w from spiele ".
 		   "inner join vereine v1 on v1.id = t1 ".
 		   "inner join vereine v2 on v2.id = t2 ".
 		   "where spiele.spieltag_id=".$spieltagId;

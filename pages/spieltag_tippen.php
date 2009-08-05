@@ -25,7 +25,9 @@ if (isset($_POST['spieltage'])){
 	echo "<table>";
 	echo "<tr>" .
 	"<th> </th>" .
+	"<th> </th>" .
 	"<th>Team 1</th>" .
+	"<th </th>" .
 	"<th>Team 2</th>" .
 	"<th>Ergebnis</th>" .
 	"<th>Tipp</th>" .
@@ -36,7 +38,9 @@ if (isset($_POST['spieltage'])){
 		
 		echo "<tr>" .
 		"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
+		"<td class=produkt>" . "<img src='".$spiel['t1w']."'/>"."</td>".
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
+		"<td class=produkt>" . "<img src='".$spiel['t2w']."'/>" . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
 		

@@ -20,13 +20,14 @@ if (!isset($_POST['heim'])){
 		$season = $seasons[$i];
 		echo "<option>".$season['id']."</option>";
 	}
-	$t = htmlentities("Auswärts");
-	$vereine = loadVereine();
 	echo "</select>";
+	$currentDate = date("Y-m-d") . " 00:00:00";
+	$vereine = loadVereine();
+	echo "Datum: <input type=text name=spieltagDate value='".$currentDate."'></input>";
 	echo "<table>";
 	echo "<tr><th></th>".
 		  "<th>Heim</th>".
-		  "<th>".$t."</th>".
+		  "<th>Ausw</th>".
 		  "<th>Datum [YYYY-MM-DD]</th>".
 		  "<th>Zeit [HH:MM:SS]</th>".
 	 "</tr>";
@@ -80,8 +81,9 @@ else {
 	}
 	echo "</table>";
 	
-	$spiele = array();	
+	$spiele = array();		
 	$spieltage = loadSpieltage();
+	
 	$last_spieltag = NULL;
 	if (is_array($spieltage))
 		$last_spieltag = end($spieltage);
@@ -91,14 +93,15 @@ else {
 		if (!empty($last_spieltag['nr']))
 			$nr = $last_spieltag['nr'] + 1;
 		
-	if (saveSpieltag($nr, $_POST['saison'])){
+	if (saveSpieltag($nr, $_POST['saison'], $_POST['spieltagDate'])){
 		$spieltag = loadSpieltag($nr);
+		
 		for ($i = 0; $i < sizeof($heimTeams); $i++){
 			$deadline = $date[$i]." ".$time[$i];
-			/*if (empty($heimTeams[$i]) || empty($auswTeams[$i]) || empty($deadline[$i]))
-				continue;*/
+			
 			$heimId = loadVereinId(utf8_decode($heimTeams[$i]));
 			$auswId = loadVereinId(utf8_decode($auswTeams[$i]));
+			
 			saveSpiel($spieltag['id'], $heimId, $auswId,"-:-", $deadline);
 		}
 		echo "<h2>Spieltag eingetragen</h2>";
