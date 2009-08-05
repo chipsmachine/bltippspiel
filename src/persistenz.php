@@ -296,7 +296,9 @@ function updateSpiel($spielId, $heim, $ausw, $erg, $zeit)
 {
 	if (empty($spielId))
 		return FALSE;
-	$sql = "update spiele set t1='".$heim."',t2='".$ausw."', ergebnis='".$erg."',zeit='".$zeit."' where id=".$spielId;
+	$heimId = loadVereinId($heim);
+	$auswId = loadVereinId($ausw);
+	$sql = "update spiele set t1='".$heimId."',t2='".$auswId."', ergebnis='".$erg."',zeit='".$zeit."' where id=".$spielId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return TRUE;

@@ -174,8 +174,8 @@ input.day {
 	top:0%;
 }
 
-input.right {
-	float:right;
+input.text {
+	width:100px;
 }
 
 div#menueintrag {
@@ -219,7 +219,6 @@ label, input, select{
   display:block;
   width: 100px;
 }
-
 
 
 td.gruppen {

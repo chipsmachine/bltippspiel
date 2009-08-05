@@ -32,11 +32,16 @@ if (isset($_POST['spieltage'])){
 		$spiel = $spiele[$i];
 
 		echo "<tr>" .
-		"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
-		"<td class=produkt>" . "<input type=text name=heim[] value="."'".htmlentities($spiel['t1'])."'"."></input>" . "</td>" .
-		"<td class=produkt>" . "<input type=text name=ausw[] value="."'".htmlentities($spiel['t2'])."'"."></input>" . "</td>" .
-		"<td class=produkt>" . "<input type=text name=erg[] value="."'".htmlentities($spiel['ergebnis'])."'"."></input>" . "</td>" .
-		"<td class=produkt>" . "<input type=text name=zeit[] size=30 value="."'".htmlentities($spiel['zeit'])."'"."></input>" . "</td>";
+		"<td class=produkt>" . 
+			"<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" . "</td>" .
+		"<td class=produkt>" . 
+			"<input type=text name=heim[] value="."'".htmlentities($spiel['t1'])."'"."></input>" . "</td>" .
+		"<td class=produkt>" . 
+			"<input type=text name=ausw[] value="."'".htmlentities($spiel['t2'])."'"."></input>" . "</td>" .
+		"<td class=produkt>" . 
+			"<input type=text name=erg[] value="."'".htmlentities($spiel['ergebnis'])."'"."></input>" . "</td>" .
+		"<td class=produkt>" . 
+			"<input type=text name=zeit[] size=30 value="."'".htmlentities($spiel['zeit'])."'"."></input>" . "</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
