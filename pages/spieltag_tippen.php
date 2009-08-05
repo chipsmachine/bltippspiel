@@ -72,7 +72,7 @@ else if (isset($_POST['tippergebnis'])){
 	echo "<th></th>";
 	for ($i = 0; $i < sizeof($tippErgebnis); $i++){
 		if ($tippErgebnis[$i] != NULL){
-			$spiel = loadSpiel($spielId[$i]);
+			$spiel = loadSpielWithNames($spielId[$i]);
 			echo "<tr>";			
 			echo "<td class=produkt>" . ($i + 1) . "</td>";
 			echo "<td class=produkt>" . htmlentities($spiel['t1']) . "</td>";

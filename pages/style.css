@@ -110,6 +110,7 @@ th {
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #C30000;
+	min-width:8px;
 }
 
 caption {
@@ -135,6 +136,46 @@ td.produkt {
 	font-weight:bold;
 	text-align: center;
 	font-size: 10pt;
+}
+
+div#year{
+	width:30px;
+	float:left;
+	top:50%;
+}
+
+div#month{
+	width:20px;
+	float:center;
+	top:50%;
+}
+
+div#day{
+	width:20px;
+	float:right;
+	top:50%;
+}
+
+input.year {
+	float:left;
+	width:30px;
+	top:0%;
+}
+
+input.month {
+	float:center;
+	width:15px;
+	top:0%;
+}
+
+input.day {
+	float:right;
+	width:15px;
+	top:0%;
+}
+
+input.right {
+	float:right;
 }
 
 div#menueintrag {

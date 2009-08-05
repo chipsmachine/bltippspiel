@@ -1,4 +1,14 @@
 <?php
+function createVereineList($vereine, $name)
+{
+	echo "<select name='".$name."[]'>";
+	for ($i = 0; $i < sizeof($vereine); $i++){
+		$verein = $vereine[$i];
+		echo "<option>".utf8_encode($verein['name'])."</option>";
+	}
+	echo "</select>";
+}
+
 if (!PersistencyManager::instance()->connect())
 	die("Error");
 
@@ -11,19 +21,33 @@ if (!isset($_POST['heim'])){
 		echo "<option>".$season['id']."</option>";
 	}
 	$t = htmlentities("Auswärts");
+	$vereine = loadVereine();
 	echo "</select>";
 	echo "<table>";
 	echo "<tr><th></th>".
 		  "<th>Heim</th>".
 		  "<th>".$t."</th>".
-		  "<th>Zeit [YYYY-MM-DD HH:MM:SS]</th>".
+		  "<th>Datum [YYYY-MM-DD]</th>".
+		  "<th>Zeit [HH:MM:SS]</th>".
 	 "</tr>";
+	$date = date("Y-m-d");
+	$time = date("H:i:s");
 	for ($i = 0; $i < 9; $i++){
 		echo "<tr>";
 		echo "<td class=produkt>".($i+1)."</td>";
-		echo "<td class=produkt><input type=text name=heim[]></input></td>";
-		echo "<td class=produkt><input type=text name=ausw[]></input></td>";
-		echo "<td class=produkt><input type=text name=zeit[]></input></td>";
+		echo "<td class=produkt>";
+		createVereineList($vereine, "heim");
+		echo "</td>";
+		echo "<td class=produkt>";
+		createVereineList($vereine, "ausw");
+		echo "</td>";
+		echo "<td class=produkt>".
+			 "<div id=year>".
+			 "<input type=text name=date[] value=".$date."></input>".
+			 "</td>";
+		echo "<td class=produkt>".
+			 "<input type=text name=zeit[] value=".$time."></input>".
+			 "</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -33,7 +57,28 @@ if (!isset($_POST['heim'])){
 else {
 	$heimTeams = $_POST['heim'];
 	$auswTeams = $_POST['ausw'];
-	$deadline = $_POST['zeit'];
+	
+	$date = $_POST['date'];
+	$time = $_POST['zeit'];
+	
+	echo "<table>";
+	echo "<tr>".
+		 "<th>Spiel</th>".
+		 "<th>Heim</th>".
+		 "<th>Ausw.</th>".
+		 "<th>Datum</th>".
+		 "<th>Zeit</th>".
+		 "</tr>";
+	for ($i = 0; $i < sizeof($heimTeams); $i++){
+		echo "<tr>";
+		echo "<td class=produkt>".($i+1)."</td>";
+		echo "<td class=produkt>".$heimTeams[$i]."</td>";
+		echo "<td class=produkt>".$auswTeams[$i]."</td>";
+		echo "<td class=produkt>".$date[$i]."</td>";
+		echo "<td class=produkt>".$time[$i]."</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
 	
 	$spiele = array();	
 	$spieltage = loadSpieltage();
@@ -47,11 +92,14 @@ else {
 			$nr = $last_spieltag['nr'] + 1;
 		
 	if (saveSpieltag($nr, $_POST['saison'])){
+		$spieltag = loadSpieltag($nr);
 		for ($i = 0; $i < sizeof($heimTeams); $i++){
-			if (empty($heimTeams[$i]) || empty($auswTeams[$i]) || empty($deadline[$i]))
-			continue;
-			$spieltag = loadSpieltag($nr);
-			saveSpiel($spieltag['id'], utf8_decode($heimTeams[$i]), utf8_decode($auswTeams[$i]),"-:-", $deadline[$i]);
+			$deadline = $date[$i]." ".$time[$i];
+			/*if (empty($heimTeams[$i]) || empty($auswTeams[$i]) || empty($deadline[$i]))
+				continue;*/
+			$heimId = loadVereinId(utf8_decode($heimTeams[$i]));
+			$auswId = loadVereinId(utf8_decode($auswTeams[$i]));
+			saveSpiel($spieltag['id'], $heimId, $auswId,"-:-", $deadline);
 		}
 		echo "<h2>Spieltag eingetragen</h2>";
 	}

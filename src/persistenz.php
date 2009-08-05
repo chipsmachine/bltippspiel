@@ -11,6 +11,7 @@ class PersistencyManager
 {
 	private static $instance = NULL;
 	private $connection;
+	private $configFile = NULL;
 	
 	private function __construct(){}
 	private function __clone(){}
@@ -26,7 +27,12 @@ class PersistencyManager
 	
 	private function readConfig()
 	{
-		$fh = fopen("../config/dbconfig.conf", "r");
+		$fh = NULL;
+		if (empty($configFile))
+			$fh = fopen("../config/dbconfig.conf", "r");
+		else
+			$fh = fopen($configFile, "r");
+			
 		$config_arr = array();
 		if ($fh != FALSE){
 			while (!feof($fh)){
@@ -53,6 +59,11 @@ class PersistencyManager
 		if (!$db)
 			die ('kein Zugriff auf ' . $config['db'] . " " . mysql_error());
 		return TRUE;
+	}
+	
+	public function setConfig($file)
+	{
+		$this->configFile = $file;
 	}
 	
 	/**
@@ -232,7 +243,11 @@ function loadSpiele($spieltagId)
 {
 	if (empty($spieltagId))
 		return FALSE;
-	$sql = "select id, t1, t2, ergebnis, zeit from spiele where spieltag_id=".$spieltagId;
+	$sql = "select spiele.id as id, spiele.spieltag_id as spieltag_id, v1.name as t1, v2.name as t2,". 
+	       "spiele.ergebnis as ergebnis, spiele.zeit as zeit from spiele ".
+		   "inner join vereine v1 on v1.id = t1 ".
+		   "inner join vereine v2 on v2.id = t2 ".
+		   "where spiele.spieltag_id=".$spieltagId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return FALSE;
@@ -244,6 +259,21 @@ function loadSpiel($spielId)
 	if (empty($spielId))
 		return FALSE;
 	$sql = "select t1, t2, ergebnis from spiele where id=".$spielId;
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0];
+}
+
+function loadSpielWithNames($spielId)
+{
+	if (empty($spielId))
+		return FALSE;
+	$sql = "select spiele.id as id, spiele.spieltag_id as spieltag_id, v1.name as t1, v2.name as t2,".
+	       "spiele.ergebnis as ergebnis, spiele.zeit as zeit from spiele ".
+		   "inner join vereine v1 on v1.id = t1 ".
+		   "inner join vereine v2 on v2.id = t2 ".
+		   "where spiele.id=".$spielId;
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return FALSE;
@@ -336,5 +366,25 @@ function saveTipp($userId, $spielId, $ergebnis)
 			return FALSE;		 
 		return TRUE;
 	}
+}
+
+function loadVereine()
+{
+	$sql = "select * from vereine";
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data;
+}
+
+function loadVereinId($name)
+{
+	if (empty($name))
+		return FALSE;
+	$sql = "select * from vereine where name="."'".$name."'";
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0]['id'];
 }
 ?>
