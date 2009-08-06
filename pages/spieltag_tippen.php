@@ -66,13 +66,13 @@ echo "</form><br><br>";
 
 if (isset($_POST['spieltage'])){
 	$state = 2;
-	$spieltag = $_POST['spieltage'];
+	$spieltagNr = $_POST['spieltage'];
 }
 else if (isset($_POST['tippergebnis']))
 	$state = 3;
 
 if ($state == 2){
-	$spieltag = loadSpieltag($spieltag);
+	$spieltag = loadSpieltag($spieltagNr);
 	$spiele = loadSpiele($spieltag['id']);
 	$benutzer_id = loadUserId($_SESSION['benutzer']);
 

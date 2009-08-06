@@ -1,8 +1,8 @@
-
-<div id="menueintrag"><a href="/pages/tabelle.php">Tabelle</a></div>
-<div id="menueintrag"><a href="/pages/spieltag.php">Spieltag</a></div>
-<div id="menueintrag"><a href="/pages/benutzer.php">Benutzer</a></div>
-<div id="menueintrag"><a href="/pages/logout.php">Logout</a></div>
+<div id="menueintrag"><a href="tipps.php">Tipps ansehen</a></div>
+<div id="menueintrag"><a href="tabelle.php">Tabelle</a></div>
+<div id="menueintrag"><a href="spieltag.php">Spieltag</a></div>
+<div id="menueintrag"><a href="benutzer.php">Benutzer</a></div>
+<div id="menueintrag"><a href="logout.php">Logout</a></div>
 <?php
 	if (isset($_SESSION['role'])){
 		if ($_SESSION['role'] == 2){

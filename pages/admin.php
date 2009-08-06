@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['benutzer'])){
-	header('location:/pages/login.php');	
+	header('location:login.php');	
 }
 include('../src/persistenz.php');
 ?>
