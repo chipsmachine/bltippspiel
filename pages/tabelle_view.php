@@ -15,6 +15,8 @@ if ($benutzer != NULL){
 			$punkte = 0;
 			for ($j = 0; $j < sizeof($ergebnisse); $j++){
 				$res = $ergebnisse[$j];
+				if (!ereg("[0-9]{1}:[0-9]{1}", $res))
+					continue;
 				$spiel_zeit = $res['zeit'];
 				$curr = time();
 				if ($curr > $spiel_zeit){
@@ -53,10 +55,11 @@ if ($benutzer != NULL){
 		$punkte_tipp_ratio = 0;
 		if ($tipp_count[key($tabelle)] > 0)
 			$punkte_tipp_ratio = current($tabelle) / $tipp_count[key($tabelle)];
-		
+
 		echo "<td class=produkt>" . $punkte_tipp_ratio . "</td>";
-		if (!empty($pictures[$name]))
+		if (!empty($pictures[$name])){
 			echo "<td class=produkt>" . "<img src='".$pictures[$name]."'/>"."</td>";
+		}
 		else
 			echo "<td class=produkt></td>";
 		echo "</tr>";

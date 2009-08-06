@@ -1,30 +1,8 @@
 <?php
-PersistencyManager::instance()->connect();
-$spieltage = loadSpieltage();
-
-echo "<h3>Spieltag</h3>";
-echo "<form name=spieltagForm method=post action=spieltag.php>";
-echo "<select name=spieltage>";
-
-for ($i = 0; $i < sizeof($spieltage); $i++){
-	$spieltag = $spieltage[$i];
-	echo "<option>" . $spieltag['nr'] . "</option>";
-}
-
-echo "</select><br>";
-echo "<input type=submit name=Submit value=laden />"; 
-echo "</form><br><br>";
-
-if (isset($_POST['spieltage'])){
-	$spieltag = loadSpieltag($_POST['spieltage']);
-	$spiele = loadSpiele($spieltag['id']);
-	$benutzer_id = loadUserId($_SESSION['benutzer']);
-	
-	echo "Spieltag: ".$_POST['spieltage']."<br>";
-	echo "<form name=spieleForm method=post action=spieltag.php>";
+function printSpieltag($spiele, $benutzerId)
+{
 	echo "<table>";
 	echo "<tr>" .
-	"<th> </th>" .
 	"<th> </th>" .
 	"<th>Team 1</th>" .
 	"<th </th>" .
@@ -37,14 +15,15 @@ if (isset($_POST['spieltage'])){
 		$spiel = $spiele[$i];
 		
 		echo "<tr>" .
-		"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
+		//"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
+		"<input type=hidden name=spielid[] value=" . $spiel['id'] . " />".
 		"<td class=produkt>" . "<img src='".$spiel['t1w']."'/>"."</td>".
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
 		"<td class=produkt>" . "<img src='".$spiel['t2w']."'/>" . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiel['ergebnis']) . "</td>";
 		
-		$tipp = loadTippFromUser($spiel['id'], $benutzer_id);
+		$tipp = loadTippFromUser($spiel['id'], $benutzerId);
 		if (!isTippExpired($spiel['id'])){
 			if ($tipp == FALSE){
 				echo "<td class=produkt>" . 
@@ -60,40 +39,69 @@ if (isset($_POST['spieltage'])){
 		}
 		echo "</tr>";
 	}
-	echo "</table>";
+	echo "</table>";	
+}
+PersistencyManager::instance()->connect();
+$spieltage = loadSpieltage();
+
+/*
+ * state = 1 Spieltagauswahl
+ * state = 2 Spieltagauswahl + Spiele + Tipps
+ * state = 3 Tipps sichern
+ */
+$state = 0;
+
+echo "<h3>Spieltag</h3>";
+echo "<form name=spieltagForm method=post action=spieltag.php>";
+echo "<select name=spieltage>";
+
+for ($i = 0; $i < sizeof($spieltage); $i++){
+	$spieltag = $spieltage[$i];
+	echo "<option>" . $spieltag['nr'] . "</option>";
+}
+
+echo "</select><br>";
+echo "<input type=submit name=Submit value=laden />"; 
+echo "</form><br><br>";
+
+if (isset($_POST['spieltage'])){
+	$state = 2;
+	$spieltag = $_POST['spieltage'];
+}
+else if (isset($_POST['tippergebnis']))
+	$state = 3;
+
+if ($state == 2){
+	$spieltag = loadSpieltag($spieltag);
+	$spiele = loadSpiele($spieltag['id']);
+	$benutzer_id = loadUserId($_SESSION['benutzer']);
+
+	echo "<form name=spieleForm method=post action=spieltag.php>";
+	printSpieltag($spiele, $benutzer_id);
 	echo "<input type=submit name=Submit value=Tippen />";
 	echo "</form>";
+	
+	$_SESSION['spieltag'] = $spieltag['id'];
 }
-else if (isset($_POST['tippergebnis'])){
+else if ($state == 3){
+	
 	$tippErgebnis = $_POST['tippergebnis'];
 	$spielId = $_POST['spielid'];
 	$benutzerId = loadUserId($_SESSION['benutzer']);
-	echo "<table>";
-	echo "<th>Nr</th>";
-	echo "<th></th>";
-	echo "<th></th>";
-	echo "<th>Tipp</th>";
-	echo "<th></th>";
+	
 	for ($i = 0; $i < sizeof($tippErgebnis); $i++){
 		if ($tippErgebnis[$i] != NULL){
 			$spiel = loadSpielWithNames($spielId[$i]);
-			echo "<tr>";			
-			echo "<td class=produkt>" . ($i + 1) . "</td>";
-			echo "<td class=produkt>" . htmlentities($spiel['t1']) . "</td>";
-			echo "<td class=produkt>" . htmlentities($spiel['t2']) . "</td>";
-			echo "<td class=produkt>" . $tippErgebnis[$i] . "</td>";
-			if (ereg("[0-9]{1}:[0-9]{1}", $tippErgebnis[$i])){
-				if (saveTipp($benutzerId, $spielId[$i], $tippErgebnis[$i]) != FALSE)
-					echo "<td class=produkt>OK</td>";
-				else
-					echo "<td class=produkt>XX</td>";
-			}
-			else
-				echo "<td class=produkt>".htmlentities("ungültiges Ergebnis")."</td>";
-			
-			echo "</tr>";	
+			if (!ereg("[0-9]{1}:[0-9]{1}", $tippErgebnis[$i]))
+				continue;
+			saveTipp($benutzerId, $spielId[$i], $tippErgebnis[$i]);
 		}
 	}
-	echo "</table>";
+	$spiele = loadSpiele($_SESSION['spieltag']);
+	
+	echo "<form name=spieleForm method=post action=spieltag.php>";
+	printSpieltag($spiele, $benutzerId);
+	echo "<input type=submit name=Submit value=Tippen />";
+	echo "</form>";
 }
 ?>
