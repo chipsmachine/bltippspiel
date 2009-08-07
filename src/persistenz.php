@@ -158,6 +158,17 @@ function saveUser($user)
 	return TRUE;
 }
 
+function updateUserPicture($picPath, $userId)
+{
+	if (empty($picPath) || empty($userId))
+		return FALSE;
+	$sql = "update benutzer set picture='".$picPath."' where id=".$userId;
+	$data = PersistencyManager::instance()->query($sql);
+	if (is_array($data))
+		return FALSE;
+	return TRUE;
+}
+
 function timeStamp($dateTime)
 {
 	// String in Datum und Uhrzeit aufsplitten
