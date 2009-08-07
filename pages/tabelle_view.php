@@ -13,18 +13,23 @@ if ($benutzer != NULL){
 		if ($row['role'] == 1){
 			$ergebnisse = loadTippAndErgebnis($row['id']);
 			$punkte = 0;
-			for ($j = 0; $j < sizeof($ergebnisse); $j++){
-				$res = $ergebnisse[$j];
-				if (!ereg("[0-9]{1}:[0-9]{1}", $res))
-					continue;
-				$spiel_zeit = $res['zeit'];
-				$curr = time();
-				if ($curr > $spiel_zeit){
-					$punkte += berechnePunkte($res['tipp'], $res['ergebnis']);
+			if ($ergebnisse != FALSE){
+				for ($j = 0; $j < sizeof($ergebnisse); $j++){
+					$res = $ergebnisse[$j];
+					if (!ereg("[0-9]{1}:[0-9]{1}", $res))
+						continue;
+					$spiel_zeit = timeStamp($res['zeit']);
+					$curr = time();
+					if ($curr > $spiel_zeit){
+						$punkte += berechnePunkte($res['tipp'], $res['ergebnis']);
+					}
 				}
+				$tipp_count[$row['name']] = sizeof($ergebnisse);
 			}
+			else
+				$tipp_count[$row['name']] = 0;
+				
 			$tabelle[$row['name']] = $punkte;
-			$tipp_count[$row['name']] = sizeof($ergebnisse);
 			$pictures[$row['name']] = $row['picture'];
 		}
 	}
