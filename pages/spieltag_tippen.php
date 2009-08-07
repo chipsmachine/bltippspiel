@@ -13,10 +13,9 @@ function printSpieltag($spiele, $benutzerId)
 	
 	for ($i = 0; $i < sizeof($spiele); $i++){
 		$spiel = $spiele[$i];
-		
+		echo "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />";
 		echo "<tr>" .
 		//"<td class=produkt>" . "<input type=hidden name=spielid[] value=" . $spiel['id'] . " />" .
-		"<input type=hidden name=spielid[] value=" . $spiel['id'] . " />".
 		"<td class=produkt>" . "<img src='".$spiel['t1w']."'/>"."</td>".
 		"<td class=produkt>" . htmlentities($spiel['t1']) . "</td>" .
 		"<td class=produkt>" . "<img src='".$spiel['t2w']."'/>" . "</td>" .

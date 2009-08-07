@@ -10,10 +10,10 @@ if ($benutzer != NULL){
 	$pictures = array();
 	for ($i = 0; $i < sizeof($benutzer); $i++){
 		$row = $benutzer[$i];
-		if ($row['role'] == 1){
+		if ($row['role'] == 1){ // User ist kein Admin
 			$ergebnisse = loadTippAndErgebnis($row['id']);
 			$punkte = 0;
-			if ($ergebnisse != FALSE){
+			if ($ergebnisse != FALSE){ // es liegen Tipps vor
 				for ($j = 0; $j < sizeof($ergebnisse); $j++){
 					$res = $ergebnisse[$j];
 					if (!ereg("[0-9]{1}:[0-9]{1}", $res))
