@@ -6,10 +6,13 @@
 </form> 
 
 <?php
+$maxSize = 20480; // Bytes
 PersistencyManager::instance()->connect();
 $path = "../res/img/user";
-
+print_r($_FILES['att']);
 if (!empty($_FILES['att']['name'])){
+	if ($_FILES['att']['size'] > $maxSize)
+		exit();
 	if (move_uploaded_file($_FILES['att']['tmp_name'], $path . "/".$_FILES['att']['name'])){
 		$userId = loadUserId($_SESSION['benutzer']);
 		if (updateUserPicture($path . "/".$_FILES['att']['name'], $userId))

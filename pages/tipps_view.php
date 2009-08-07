@@ -23,9 +23,7 @@ if (isset($_POST['spieltage'])){
 	echo "<table>";
 	echo "<tr>".
 		 "<th> </th>" .
-		 "<th>Team 1</th>" .
 		 "<th </th>" .
-		 "<th>Team 2</th>" .
 		 "<th>Ergebnis</th>"; 
 	for ($i = 0; $i < sizeof($users); $i++){
 		if ($users[$i]['role'] == 2)
@@ -36,9 +34,7 @@ if (isset($_POST['spieltage'])){
 	for($i = 0; $i < sizeof($spiele); $i++){
 		echo "<tr>".
 		"<td class=produkt>" . "<img src='".$spiele[$i]['t1w']."'/>"."</td>".
-		"<td class=produkt>" . htmlentities($spiele[$i]['t1']) . "</td>" .
 		"<td class=produkt>" . "<img src='".$spiele[$i]['t2w']."'/>" . "</td>" .
-		"<td class=produkt>" . htmlentities($spiele[$i]['t2']) . "</td>" .
 		"<td class=produkt>" . htmlentities($spiele[$i]['ergebnis']) . "</td>";
 		for ($j = 0; $j < sizeof($users); $j++){
 			if ($users[$j]['role'] == 2)

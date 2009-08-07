@@ -16,8 +16,9 @@ if ($benutzer != NULL){
 			if ($ergebnisse != FALSE){ // es liegen Tipps vor
 				for ($j = 0; $j < sizeof($ergebnisse); $j++){
 					$res = $ergebnisse[$j];
-					if (!ereg("[0-9]{1}:[0-9]{1}", $res))
-						continue;
+					if (!ereg("[0-9]{1}:[0-9]{1}", $res['ergebnis']) ||
+						!ereg("[0-9]{1}:[0-9]{1}", $res['tipp']))
+						continue;	
 					$spiel_zeit = timeStamp($res['zeit']);
 					$curr = time();
 					if ($curr > $spiel_zeit){
