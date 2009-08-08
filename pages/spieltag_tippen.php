@@ -34,7 +34,8 @@ function printSpieltag($spiele, $benutzerId)
 			}
 		}
 		else {
-			echo "<td class=produkt>" . $tipp['ergebnis'] . "</td>";
+			echo "<td class=produkt>" . 
+			"<input type=text name=tippergebnis[] value=\"".$tipp['ergebnis']."\" readonly />" . "</td>";
 		}
 		echo "</tr>";
 	}
@@ -87,7 +88,7 @@ else if ($state == 3){
 	$tippErgebnis = $_POST['tippergebnis'];
 	$spielId = $_POST['spielid'];
 	$benutzerId = loadUserId($_SESSION['benutzer']);
-	
+		
 	for ($i = 0; $i < sizeof($tippErgebnis); $i++){
 		if ($tippErgebnis[$i] != NULL){
 			$spiel = loadSpielWithNames($spielId[$i]);
