@@ -101,6 +101,24 @@ class PersistencyManager
 	}
 }
 
+function readPunkteConfig($file)
+{
+	$fh = fopen($file, "r");
+	
+	$config_arr = array();
+	if ($fh != FALSE){
+		while (!feof($fh)){
+			$line = fgets($fh, 80);
+			$pair = explode("=", $line);
+			$key = ltrim(rtrim($pair[0]));
+			$value = ltrim(rtrim($pair[1]));
+			$config_arr[$key] = $value;
+		}
+		fclose($fh);
+	}
+	return $config_arr;
+}
+
 function loadUser($name)
 {
 	if (empty($name))
