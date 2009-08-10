@@ -193,6 +193,17 @@ function loadUser($name)
 	return $benutzer;	
 }
 
+function loadUserFromId($id)
+{
+	if (empty($id) || !is_numeric($id))
+		return FALSE;
+	$sql = "select * from benutzer where id=".$id;
+	$data = PersistencyManager::instance()->query($sql);
+	if (!is_array($data))
+		return FALSE;
+	return $data[0];
+}
+
 function loadAllUser()
 {
 	$sql = "select id,name,picture, role from benutzer";
