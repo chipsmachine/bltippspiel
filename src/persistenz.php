@@ -2,6 +2,54 @@
 
 include 'classes.php';
 
+class Config
+{
+	private $fileHandle = NULL;
+	private $file = NULL;
+	
+	public function __construct($file)
+	{
+		$this->file = $file;
+	}
+
+	public function read()
+	{
+		$this->fileHandle = fopen($this->file, "r");
+		if ($this->fileHandle != FALSE){
+			$configArr = array();
+			while (!feof($this->fileHandle)){
+				$line = fgets($this->fileHandle, 80);
+				$pair = explode("=", $line);
+				$key = ltrim(rtrim($pair[0]));
+				$value = ltrim(rtrim($pair[1]));
+				$configArr[$key] = $value;
+			}
+			fclose($this->fileHandle);
+			return $configArr;
+		}
+		return FALSE;
+	}
+	
+	public function write($configArr)
+	{
+		if (empty($configArr))
+			return FALSE;
+		/*if (!is_array($configArr)){
+			return FALSE;
+		}*/
+		$this->fileHandle = fopen($this->file, "w");
+		if ($this->fileHandle != FALSE){
+			do{
+				$line = sprintf("%s=%d\n", key($configArr), current($configArr));
+				fputs($this->fileHandle, $line);
+			}while (next($configArr));
+			fclose($this->fileHandle);
+			return TRUE;
+		}
+		return FALSE;
+	}
+}
+
 /**
  * Singleton stellt Datenbankverbindung her und setzt Datenbankabfragen ab
  * In jeder Script Datei muss PersistenzManager::instance()->connect()
@@ -27,24 +75,8 @@ class PersistencyManager
 	
 	private function readConfig()
 	{
-		$fh = NULL;
-		if (empty($configFile))
-			$fh = fopen("../config/dbconfig.conf", "r");
-		else
-			$fh = fopen($configFile, "r");
-			
-		$config_arr = array();
-		if ($fh != FALSE){
-			while (!feof($fh)){
-				$line = fgets($fh, 80);
-				$pair = explode("=", $line);
-				$key = ltrim(rtrim($pair[0]));
-				$value = ltrim(rtrim($pair[1]));
-				$config_arr[$key] = $value;
-			}
-			fclose($fh);
-		}
-		return $config_arr;
+		$config = new Config("../config/dbconfig.conf");
+		return $config->read();
 	}
 	
 	public function connect()
@@ -68,7 +100,7 @@ class PersistencyManager
 	
 	/**
 	 * Muss nicht explizit aufgerufen werden.
-	 * DB Verbindungen existieren nicht Ÿber Scriptgrenzen hinweg.
+	 * DB Verbindungen existieren nicht ï¿½ber Scriptgrenzen hinweg.
 	 */ 
 	 
 	public function close()
@@ -80,7 +112,7 @@ class PersistencyManager
 	
 	/**
 	 * Absetzen einer Datenbankabfrage.
-	 * RŸckgabe von SELECT, INSERT, UPDATE und DELETE berŸcksichtigen !!
+	 * RÃ¼ckgabe von SELECT, INSERT, UPDATE und DELETE berÃ¼cksichtigen !!
 	 */
 	public function query($sql)
 	{
@@ -101,22 +133,49 @@ class PersistencyManager
 	}
 }
 
+class Log
+{
+	private static $instance = NULL;
+	
+	private function __construct(){}
+	private function __clone(){}
+	
+	public static function instance()
+	{
+		if (self::$instance == NULL){
+			self::$instance = new self;
+		}
+		return self::$instance;		
+	}
+	
+	public function write($msg, $line, $function, $file)
+	{
+		$timeStamp = time();
+		$time = date("Y-m-d H:i:s");
+		$sql = "insert into logs (line, function, file, time, msg) values".
+			   "('".$line."','".$function."','".$file."','".$time."','".$msg."')";
+		if (PersistencyManager::instance()->query($sql))
+			return TRUE;
+		return FALSE;
+	}
+	
+	public function load()
+	{
+		$sql = "select * from logs";
+		return PersistencyManager::instance()->query($sql);	
+	}
+}
+
 function readPunkteConfig($file)
 {
-	$fh = fopen($file, "r");
-	
-	$config_arr = array();
-	if ($fh != FALSE){
-		while (!feof($fh)){
-			$line = fgets($fh, 80);
-			$pair = explode("=", $line);
-			$key = ltrim(rtrim($pair[0]));
-			$value = ltrim(rtrim($pair[1]));
-			$config_arr[$key] = $value;
-		}
-		fclose($fh);
-	}
-	return $config_arr;
+	$config = new Config($file);
+	return $config->read();
+}
+
+function savePunkteConfig($file, $config)
+{
+	$config = new Config($file);
+	return $config->write($config);
 }
 
 function loadUser($name)
@@ -380,7 +439,7 @@ function loadAllTippsFromUser($benutzerId)
 function saveTipp($userId, $spielId, $ergebnis)
 {
 	// Sobald ein Tipp mit einer Spielid in der Datenbank vorhanden ist,
-	// wird ein update auf das Ergebnis ausgefŸhrt.
+	// wird ein update auf das Ergebnis ausgefï¿½hrt.
 	
 	if (loadTippFromUser($spielId, $userId)){
 		$sql = "update tipp set ergebnis="."'".$ergebnis."'"." where spiel_id=".$spielId." and user_id=".$userId;

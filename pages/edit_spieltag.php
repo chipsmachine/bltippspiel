@@ -24,7 +24,7 @@ if (isset($_POST['spieltage'])){
 	echo "<table>";
 	echo "<tr><th></th>".
 		  "<th>Heim</th>".
-		  "<th>Auswärts</th>".
+		  "<th>Ausw√§rts</th>".
 		  "<th>Ergebnis</th>".
 		  "<th>Zeit [YYYY-MM-DD HH:MM:SS]</th>".
 	 "</tr>";
@@ -60,6 +60,6 @@ else if (isset($_POST['spielid'])){
 		updateSpiel($spielId[$i], utf8_decode($heim[$i]), utf8_decode($ausw[$i]), $erg[$i], $zeit[$i]);
 	}
 	echo "Spiele aktualisiert<br>";
-	echo "<a href=admin.php>zurück</a></div>";	
+	echo "<a href=admin.php>zur√ºck</a></div>";	
 }
 ?>

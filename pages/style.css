@@ -138,10 +138,47 @@ td.produkt {
 	font-size: 10pt;
 }
 
-div#year{
-	width:30px;
+div#box{
+	background:#C5C6C7;
+	position:relative;
+	border:1px dashed black;
+	width:60%;
+	height:100px;
 	float:left;
-	top:50%;
+	margin-top:3px;
+}
+
+div#box2{
+	background:#C30000;
+	position:relative;
+	width:60%;
+	height:10px;
+	float:top;
+	margin-left:3px;
+}
+
+div#pic{
+	position:relative;
+	width:60px;
+	height:60px;
+	float:left;
+	left:3px;
+	top:3px;
+	font-size:9pt;
+}
+
+div#msg{
+	background:#E2E2E2;
+	border:1px solid black;
+	position:relative;
+	width:83%;
+	height:80px;
+	float:center;
+	left:60px;
+	top:3px;
+	text-align:left;
+	font-size:10pt;
+	padding:6px 6px 6px 6px;
 }
 
 div#month{
