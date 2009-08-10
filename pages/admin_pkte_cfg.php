@@ -9,8 +9,8 @@ if (isset($_POST['keys'])){
 		$pkte_config[$_POST['keys'][$i]] = $_POST['punkte'][$i];
 	}
 	print_r($pkte_config);
-	if (savePunkteConfig("../config/punkte.conf", $pkte_config) == FALSE)
-		echo "oje net gesichert<br>";
+	/*if (savePunkteConfig("../config/punkte.conf", $pkte_config) == FALSE)
+		echo "oje net gesichert<br>";*/
 	$pkte_config = readPunkteConfig("../config/punkte.conf");
 }
 else {
