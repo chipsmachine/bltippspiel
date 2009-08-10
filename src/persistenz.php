@@ -172,10 +172,10 @@ function readPunkteConfig($file)
 	return $config->read();
 }
 
-function savePunkteConfig($file, $config)
+function savePunkteConfig($file, $configArr)
 {
 	$config = new Config($file);
-	return $config->write($config);
+	return $config->write($configArr);
 }
 
 function loadUser($name)
