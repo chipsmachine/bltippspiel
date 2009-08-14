@@ -18,7 +18,6 @@ echo "</form><br><br>";
 if (isset($_POST['spieltage'])){
 	$spieltag = loadSpieltag($_POST['spieltage']);
 	$users = loadAllUser();
-	//print_r($users);
 	$spiele = loadSpiele($spieltag['id']);
 	echo "<table>";
 	echo "<tr>".
@@ -40,7 +39,15 @@ if (isset($_POST['spieltage'])){
 			if ($users[$j]['role'] == 2)
 				continue;
 			$tipp = loadTippFromUser($spiele[$i]['id'], $users[$j]['id']);
-			echo "<td class=produkt>".$tipp['ergebnis']."</td>";
+			$currentTime = time();
+			$gameTime = timeStamp($spiele[$i]['zeit']);
+			
+			if ($users[$j]['name'] == $_SESSION['benutzer'])
+				echo "<td class=produkt>".$tipp['ergebnis']."</td>";
+			else if ($currentTime > $gameTime )
+				echo "<td class=produkt>".$tipp['ergebnis']."</td>";
+			else
+				echo "<td class=produkt></td>";
 		}
 		echo "</tr>";
 	}
