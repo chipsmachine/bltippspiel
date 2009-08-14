@@ -6,10 +6,11 @@
 <br>
 <br></br>
 <?php
+	require_once('../src/persistenz.php');
 	require_once('../src/gbuch.php');
+	require_once('../src/views.php');
 	
 	PersistencyManager::instance()->connect();
-	print_r($_POST);
 	if (isset($_POST['gbtext'])){
 		$id = loadUserId($_SESSION['benutzer']);
 		$dateTime = date("Y-m-d H:i:s", time());
@@ -18,5 +19,17 @@
 	} 
 	GBuch::instance()->load();
 	$view = new GBuchDivView(GBuch::instance());
+	echo "<form name=\"gbuchForm\" method=\"post\" action=\"laberecke.php\">";
+	echo "<select name=\"pages\">";
+	for ($i = 0; $i < $view->pages(); $i++){
+		echo "<option>".$i."</option>";
+	}
+	echo "</select>";
+	echo "<input type=\"submit\" value=\"laden\"/>";
+	echo "</form>";
+	if (isset($_POST['pages'])){
+		$view->setPage($_POST['pages']);
+	}
 	$view->show();
+	echo "<br clear=\"all\">"; //floating abschalten
 ?>

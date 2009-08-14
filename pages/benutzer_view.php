@@ -1,5 +1,5 @@
-<h2>Bild hochladen</h2>
-(an alle noobs Bilder > 100x100 px sprengen das Design!!!)
+<h3>Bild hochladen</h3>
+(Bilder < 100x100 px)
 <form action="benutzer.php" method="post" enctype="multipart/form-data">
   <input type="file" name="att"></input>
   <input type="submit" value="submit"></input>
@@ -23,6 +23,5 @@ if (!empty($_FILES['att']['name'])){
 	else
 		echo "Datei konnte nicht hochegeladen werden";
 }
-
-echo "<h2>Benutzernamen</h2>";
 ?>
+<h3>Benutzernamen</h3>

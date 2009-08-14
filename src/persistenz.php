@@ -34,9 +34,9 @@ class Config
 	{
 		if (empty($configArr))
 			return FALSE;
-		/*if (!is_array($configArr)){
+		if (!is_array($configArr)){
 			return FALSE;
-		}*/
+		}
 		$this->fileHandle = fopen($this->file, "w");
 		if ($this->fileHandle != FALSE){
 			do{
@@ -130,39 +130,6 @@ class PersistencyManager
 			array_push($array, $row);
 		}		
 		return $array;
-	}
-}
-
-class Log
-{
-	private static $instance = NULL;
-	
-	private function __construct(){}
-	private function __clone(){}
-	
-	public static function instance()
-	{
-		if (self::$instance == NULL){
-			self::$instance = new self;
-		}
-		return self::$instance;		
-	}
-	
-	public function write($msg, $line, $function, $file)
-	{
-		$timeStamp = time();
-		$time = date("Y-m-d H:i:s");
-		$sql = "insert into logs (line, function, file, time, msg) values".
-			   "('".$line."','".$function."','".$file."','".$time."','".$msg."')";
-		if (PersistencyManager::instance()->query($sql))
-			return TRUE;
-		return FALSE;
-	}
-	
-	public function load()
-	{
-		$sql = "select * from logs";
-		return PersistencyManager::instance()->query($sql);	
 	}
 }
 
