@@ -20,6 +20,7 @@
 	GBuch::instance()->load();
 	$view = new GBuchDivView(GBuch::instance());
 	echo "<form name=\"gbuchForm\" method=\"post\" action=\"laberecke.php\">";
+	echo "Seiten";
 	echo "<select name=\"pages\">";
 	for ($i = 0; $i < $view->pages(); $i++){
 		echo "<option>".$i."</option>";
