@@ -1,7 +1,11 @@
 <?php
+require_once('../src/views.php');
 PersistencyManager::instance()->connect();
 $benutzer = loadAllUser();
-if ($benutzer != NULL){
+$table = new PlayerTable();
+$view = new PlayerTableView($table);
+$view->show();
+/*if ($benutzer != NULL){
 	// Punktetabelle berechnen
 	// TODO: alles in ein Array stecken
 	$tabelle = array();
@@ -35,5 +39,5 @@ if ($benutzer != NULL){
 	}
 	arsort($tabelle, SORT_NUMERIC); 
 	include('tabelle_view.php');
-}
+}*/
 ?>

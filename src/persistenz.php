@@ -173,7 +173,7 @@ function loadUserFromId($id)
 
 function loadAllUser()
 {
-	$sql = "select id,name,picture, role from benutzer";
+	$sql = "select id,name,picture, role from benutzer where role=1";
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return NULL;

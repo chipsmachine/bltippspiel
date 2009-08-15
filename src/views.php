@@ -1,8 +1,8 @@
 <?php
 
-class TableModel
+/*class TableModel
 {
-	private $data;   // 2d array
+	private $data = array(array());   // 2d array
 	private $header; // array
 	private $columns;
 	private $rows;
@@ -12,13 +12,8 @@ class TableModel
 		$this->columns = $columns;
 		$this->rows = $rows;
 	}
-	
-	public function setData($data)
-	{
-		$this->data = $data;
-	}
-	
-	public function setHeader($header)
+
+	protected function setHeader($header)
 	{
 		$this->header = $header;
 	}
@@ -51,6 +46,208 @@ class TableModel
 		if ($index >= $this->rows && $index < 0)
 			return NULL;
 		return $this->data[$index];
+	}
+}*/
+class PlayerTable
+{
+	private $data = array(array());
+	private $header = array("Spieler","Punkte","Tipps","");
+	private $columns = 0;
+	private $rows = 0;
+	 
+	public function __construct()
+	{
+		$this->columns = sizeof($this->header);
+		$this->load();
+	}
+	
+	private function load()
+	{
+		$users = loadAllUser();
+		if (!is_array($users))
+			return FALSE;
+		$this->rows = sizeof($users);
+		for ($i = 0; $i < sizeof($users); $i++){
+			$user = $users[$i];
+			$results = loadTippAndErgebnis($user['id']);
+			$points = 0;
+			$this->data[$i][2] = 0;
+			if ($results != FALSE){
+				for ($j = 0; $j < sizeof($results); $j++){
+					$res = $results[$j];
+					if (!ereg("[0-9]{1}:[0-9]{1}", $res['ergebnis']) ||
+						!ereg("[0-9]{1}:[0-9]{1}", $res['tipp']))
+						continue;
+					$gameTime = timeStamp($res['zeit']);
+					$currentTime = time();
+					if ($currentTime > $gameTime)
+						$points += berechnePunkte($res['tipp'], $res['ergebnis']);
+				}
+				$this->data[$i][2] = sizeof($results);
+			}
+			$this->data[$i][0] = $user['name'];
+			$this->data[$i][1] = $points;
+			$this->data[$i][3] = "<img src=\"".$user['picture']."\"/>";
+		}
+		
+		function cmp_points($a, $b)
+		{
+			if ($a[1] == $b[1])
+				return 0;
+			return ($a[1] > $b[1]) ? -1 : 1; 	
+		}
+		
+		usort($this->data, 'cmp_points');
+		
+	}
+	
+	public function get($row, $col)
+	{
+		return $this->data[$row][$col];
+	}
+	
+	public function columns()
+	{
+		return $this->columns;
+	}
+	
+	public function rows()
+	{
+		return $this->rows;	
+	}
+	
+	public function header()
+	{
+		return $this->header;
+	}
+}
+
+class PlayerTableView
+{
+	private $table = NULL;
+	
+	public function __construct($table)
+	{
+		$this->table = $table;
+	}
+	
+	public function show()
+	{
+		$header = $this->table->header();
+		echo "<table>";
+		echo "<tr>";
+		echo "<th></th>";
+		for ($i = 0; $i < sizeof($header); $i++){
+			echo "<th>".$header[$i]."</th>";
+		}
+		echo "</tr>";
+		for ($i = 0; $i < $this->table->rows(); $i++){
+			echo "<tr>";
+			echo "<td class=\"produkt\">".($i+1)."</td>";
+			for ($j = 0; $j < $this->table->columns(); $j++){
+				echo "<td class=\"produkt\">".$this->table->get($i, $j)."</td>";
+			}
+			echo "</tr>";
+		}
+		echo "</table>";
+	}
+}
+
+class TippTable
+{
+	private $data = array(array());
+	private $header = array("", "", "ergebnis");
+	private $columns = 0;
+	private $rows = 0;
+	
+	public function __construct($spieltagId)
+	{	
+		$this->load($spieltagId);
+	}
+	
+	private function load($spieltagId)
+	{
+		if (!is_numeric($spieltagId))
+			return FALSE;
+		$spiele = loadSpiele($spieltagId);
+		$users = loadAllUser();
+		for ($i = 0; $i < sizeof($users); $i++){
+			if ($users[$i]['role'] == 2)
+				continue;
+			array_push($this->header, $users[$i]['name']);
+		}
+		$this->columns = sizeof($this->header);
+		$this->rows = sizeof($spiele);
+		
+		for($i = 0; $i < sizeof($spiele); $i++){
+			$this->data[$i][0] = "<img src=\"".$spiele[$i]['t1w']."\"/>";
+			$this->data[$i][1] = "<img src=\"".$spiele[$i]['t2w']."\"/>";
+			$this->data[$i][2] = htmlentities($spiele[$i]['ergebnis']);
+
+			for ($j = 0; $j < sizeof($users); $j++){
+				if ($users[$j]['role'] == 2)
+					continue;
+				$tipp = loadTippFromUser($spiele[$i]['id'], $users[$j]['id']);
+				$currentTime = time();
+				$gameTime = timeStamp($spiele[$i]['zeit']);
+				
+				$tippStr = "";
+				if ($users[$j]['name'] == $_SESSION['benutzer'])
+					$tippStr = $tipp['ergebnis'];
+				else if ($currentTime > $gameTime )
+					$tippStr = $tipp['ergebnis'];
+				$this->data[$i][$j + 3] = $tippStr;
+			}
+		}
+	}
+	
+	public function get($row, $col)
+	{
+		return $this->data[$row][$col];
+	}
+	
+	public function columns()
+	{
+		return $this->columns;
+	}
+	
+	public function rows()
+	{
+		return $this->rows;	
+	}
+	
+	public function header()
+	{
+		return $this->header;
+	}
+}
+
+class TippTableView
+{
+	private $table = NULL;
+	
+	public function __construct($table)
+	{
+		$this->table = $table;	
+	}
+	
+	public function show()
+	{
+		echo "<table>";
+		echo "<tr>";
+		$header = $this->table->header();
+		for ($i = 0; $i < sizeof($header); $i++){
+			echo "<th>".$header[$i]."</th>";
+		}
+		echo "</tr>";
+		for ($i = 0; $i < $this->table->rows(); $i++){
+			echo "<tr>";
+			for ($j = 0; $j < $this->table->columns(); $j++){
+				echo "<td class=\"produkt\">".$this->table->get($i, $j)."</td>";
+			}
+			echo "</tr>";
+		}
+		echo "</table>";
 	}
 }
 
