@@ -394,11 +394,18 @@ function loadTippFromUser($spielId, $benutzerId)
 		return FALSE;
 	return $data[0]; 
 }
-function loadTippAndErgebnis($userId)
+function loadTippAndErgebnis($userId, $gameDayId)
 {
-	$sql = "select s.ergebnis, t.ergebnis as tipp, s.zeit from spiele s " .
-		   "inner join tipp t on s.id = t.spiel_id ".
-		   "where t.user_id=".$userId;
+	if ($gameDayId != NULL){
+		$sql = "select s.ergebnis, t.ergebnis as tipp, s.zeit from spiele s " .
+		   	   "inner join tipp t on s.id = t.spiel_id ".
+		   	   "where t.user_id=".$userId." and s.spieltag_id=".$gameDayId;
+	}
+	else {	
+		$sql = "select s.ergebnis, t.ergebnis as tipp, s.zeit from spiele s " .
+		   	   "inner join tipp t on s.id = t.spiel_id ".
+		   	   "where t.user_id=".$userId;
+	}
 	$data = PersistencyManager::instance()->query($sql);
 	if (!is_array($data))
 		return FALSE;

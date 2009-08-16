@@ -20,7 +20,7 @@ include('../src/persistenz.php');
 			<?php include('menu.php');?>
 		</div>
 		<div id="content">
-			<?php include('tabelle_ctrl.php');?>
+			<?php include('tabelle_ct.php');?>
 		</div>
 		<?php include('footer.php');?>
 	</div>
