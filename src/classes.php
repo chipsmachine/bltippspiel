@@ -59,8 +59,17 @@ public $season, $spieler, $spieltag, $id;
 	function add
 }*/
 
-function berechnePunkte($tipp, $ergebnis)
+function berechnePunkte($tipp, $ergebnis, $pointAlloc)
 {
+	if ($pointAlloc == NULL){
+		$p = $pointAlloc;	
+	}
+	else{
+		$p = array('exakt' => 4, 
+				   'unentschieden' => 3, 
+				   'tendenzdiff' => 2, 
+				   'tendenz' => 2);
+	}
 	$exp = "[0-9]{1}:[0-9]{1}";
 	if (empty($tipp) || empty($ergebnis))
 		return 0;
@@ -68,7 +77,7 @@ function berechnePunkte($tipp, $ergebnis)
 		return 0;
 	// Ergebnis und Tipp sind gleich
 	if ($ergebnis == $tipp)
-		return 8;
+		return $p['exakt'];
 	$erg_arr = explode(":", $ergebnis);
 	$tipp_arr = explode(":", $tipp);
 	
@@ -87,26 +96,26 @@ function berechnePunkte($tipp, $ergebnis)
 	if ($erg_diff == 0 && $tipp_diff == 0) {
 		$erg_tipp_diff = abs($erg_tore_links - $tipp_tore_links);
 		if ( $erg_tipp_diff == 1)
-			return 4;
+			return $p['unentschieden'];
 		else
-			return 2;
+			return $p['unentschieden'];
 	}
 	// Team1 gewinnt gegen Team2 (Team1 = Heimteam ???)
 	// Bei gleicher Tordifferenz aber unterschiedlichem Ergebnis -> 2 Punkte
 	// Bei unterschiedlichem Ergebnis und Tordifferenz -> 1 Punkt
 	if ($erg_tore_links > $erg_tore_rechts && $tipp_tore_links > $tipp_tore_rechts){
 		if ($erg_diff == $tipp_diff)
-			return 4;
+			return $p['tendenzdiff'];
 		else
-			return 2;
+			return $p['tendenz'];
 	}
 	// Team 1 verliert gegen Team2 (Team2 = Ausw�rtsteam ???)
 	// s.o.
 	if ($erg_tore_links < $erg_tore_rechts && $tipp_tore_links < $tipp_tore_rechts){
 		if ($erg_diff == $tipp_diff)
-			return 4;
+			return $p['tendenzdiff'];
 		else
-			return 2;
+			return $p['tendenz'];
 	}
 	return 0;
 }

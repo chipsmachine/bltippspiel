@@ -133,6 +133,7 @@ class GBuchDivView
 		$messages = $this->gbuch->messages();
 		$msgCount = sizeof($messages);
 		$this->pageCount = ceil($msgCount / self::MSG_PER_PAGE);
+		// 
 		for ($i = 0, $current = -1, $j = 0; $i < $msgCount; $i++){
 			if ($i % self::MSG_PER_PAGE == 0){
 				$current++;
@@ -182,6 +183,11 @@ class GBuchDivView
 		}
 	}
 	
+}
+
+class NewsView
+{
+	private $news = NULL;
 }
 
 class LogTableView

@@ -91,7 +91,7 @@ class PlayerMatchDayTable
 			return FALSE;
 		if (!is_numeric($matchDayNr))
 			return FALSE;
-			
+		$pointAlloc = readPunkteConfig("../config/punkte.conf");	
 		$users = loadAllUser();
 		if (!is_array($users))
 			return FALSE;
@@ -102,7 +102,7 @@ class PlayerMatchDayTable
 			$results = loadTippAndErgebnis($user['id'], $matchDay['id']);
 			$points = 0;
 			if ($results != FALSE){
-				$points = $this->sumPoints($results);
+				$points = $this->sumPoints($results, $pointAlloc);
 			}
 			$this->fillRow($i, $user, $points);
 		}
@@ -117,7 +117,7 @@ class PlayerMatchDayTable
 		usort($this->data, 'cmp_points');
 	}
 	
-	private function sumPoints($results)
+	private function sumPoints($results, $p)
 	{
 		$points = 0;
 		for ($j = 0; $j < sizeof($results); $j++){
@@ -128,7 +128,7 @@ class PlayerMatchDayTable
 			$gameTime = timeStamp($res['zeit']);
 			$currentTime = time();
 			if ($currentTime > $gameTime)
-				$points += berechnePunkte($res['tipp'], $res['ergebnis']);
+				$points += berechnePunkte($res['tipp'], $res['ergebnis'], $p);
 		}
 		return $points;
 	}
@@ -179,6 +179,7 @@ class PlayerTable
 		$users = loadAllUser();
 		if (!is_array($users))
 			return FALSE;
+		$pointAlloc = readPunkteConfig("../config/punkte.conf");
 		$this->rows = sizeof($users);
 		for ($i = 0; $i < sizeof($users); $i++){
 			$user = $users[$i];
@@ -194,7 +195,7 @@ class PlayerTable
 					$gameTime = timeStamp($res['zeit']);
 					$currentTime = time();
 					if ($currentTime > $gameTime)
-						$points += berechnePunkte($res['tipp'], $res['ergebnis']);
+						$points += berechnePunkte($res['tipp'], $res['ergebnis'], $pointAlloc);
 				}
 				$this->data[$i][2] = sizeof($results);
 			}
@@ -285,6 +286,11 @@ class TippTable
 				$this->data[$i][$j + 3] = $tippStr;
 			}
 		}
+	}
+	
+	private function fillRow($game, $data)
+	{
+		
 	}
 	
 	public function get($row, $col)

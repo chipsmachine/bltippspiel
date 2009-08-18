@@ -1,0 +1,3 @@
+<ul>
+<li>Bilder(Avatare) können unter <b>Einstellungen</b> hochgeladen werden</li>
+</ul>

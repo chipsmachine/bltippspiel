@@ -1,7 +1,7 @@
 <h3>Bild hochladen</h3>
 (Bilder < 100x100 px)
 <form action="benutzer.php" method="post" enctype="multipart/form-data">
-  <input type="file" name="att"></input>
+  <input class="text" type="file" name="att"></input>
   <input type="submit" value="submit"></input>
 </form> 
 
