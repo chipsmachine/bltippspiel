@@ -91,7 +91,9 @@ class PlayerMatchDayTable
 			return FALSE;
 		if (!is_numeric($matchDayNr))
 			return FALSE;
-		$pointAlloc = readPunkteConfig("../config/punkte.conf");	
+		$pointAlloc = readPunkteConfig("../config/punkte.conf");
+		if (!$pointAlloc)
+			$pointAlloc = NULL;	
 		$users = loadAllUser();
 		if (!is_array($users))
 			return FALSE;
@@ -180,6 +182,8 @@ class PlayerTable
 		if (!is_array($users))
 			return FALSE;
 		$pointAlloc = readPunkteConfig("../config/punkte.conf");
+		if (!$pointAlloc)
+			$pointAlloc = NULL;
 		$this->rows = sizeof($users);
 		for ($i = 0; $i < sizeof($users); $i++){
 			$user = $users[$i];

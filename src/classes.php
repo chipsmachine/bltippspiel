@@ -67,7 +67,7 @@ function berechnePunkte($tipp, $ergebnis, $pointAlloc)
 	else{
 		$p = array('exakt' => 4, 
 				   'unentschieden' => 3, 
-				   'tendenzdiff' => 2, 
+				   'tendenzdiff' => 3, 
 				   'tendenz' => 2);
 	}
 	$exp = "[0-9]{1}:[0-9]{1}";
